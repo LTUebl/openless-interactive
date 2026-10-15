@@ -166,11 +166,29 @@
             </div>
 
             <!-- Video Frame Container -->
-            <div class="relative bg-black aspect-video flex items-center justify-center">
+            <div class="relative bg-black aspect-video flex items-center justify-center overflow-hidden">
               <video id="landing-video" class="w-full h-full object-contain" playsinline muted preload="auto">
                 <source src="videos/Stepoff-Leaning_sync.mp4" type="video/mp4">
                 Your browser does not support HTML5 video.
               </video>
+
+              <!-- Custom Trial Overlay (Shown when no pre-recorded video is attached) -->
+              <div id="video-custom-overlay" class="hidden absolute inset-0 bg-slate-900/95 text-white flex flex-col items-center justify-center p-6 text-center space-y-3 z-20">
+                <div class="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-emerald-400 text-xl shadow-lg">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="space-y-1">
+                  <div class="text-xs uppercase tracking-wider font-bold text-emerald-400">Analysis Active</div>
+                  <h4 id="overlay-trial-name" class="font-bold text-base text-white">Custom OpenCap Trial</h4>
+                  <p class="text-xs text-slate-300 max-w-md mx-auto">
+                    3D joint kinematics, ground contact events, and 19 LESS criteria were computed directly from your uploaded <code>.trc</code> and <code>.mot</code> files.
+                  </p>
+                </div>
+                <div class="flex items-center gap-2 pt-1 text-[11px] text-slate-400 bg-slate-800/90 px-3.5 py-1.5 rounded-lg border border-slate-700">
+                  <i class="fas fa-info-circle text-blue-400"></i>
+                  <span>Explore the interactive joint angle curves below and the 19-item scorecard to the right.</span>
+                </div>
+              </div>
             </div>
 
             <!-- Video Controls Bar -->
@@ -488,7 +506,7 @@
               <i id="q-icon-4" class="fas fa-chevron-down"></i>
             </button>
           </div>
-          <div id="q-ans-4" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs text-slate-700 leading-relaxed bg-white p-3 rounded">
+          <div id="q-ans-3" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs text-slate-700 leading-relaxed bg-white p-3 rounded">
             <strong class="text-blue-900 font-semibold">Biomechanical Mechanism:</strong> The impulse-momentum relationship dictates that the change in momentum ($\Delta p = m \cdot \Delta v$) is equal to the integral of net force over time ($\int F \, dt$). In both trials, the subject falls from the same height and must arrest the same vertical momentum to come to a stop ($\Delta p$ is constant). In Trial 1 (Soft Landing), the deep multi-joint flexion (45° knee displacement, 39° hip displacement) lengthens the deceleration time ($\Delta t$). Because $\Delta t$ is large, the peak ground reaction force ($F_{peak}$) is low. In Trial 2 (Stiff Landing), the joints undergo minimal displacement (only 19-23° knee flexion), halting downward velocity in a fraction of the time. Consequently, the ground reaction force spike is extraordinarily high, delivering jarring impact shocks to cartilage, subchondral bone, and passive ligaments.
           </div>
         </div>
@@ -512,40 +530,56 @@
 
       <div class="p-6 space-y-4">
         <p class="text-xs text-slate-600">
-          Upload the <strong>.trc</strong> marker coordinate file and the <strong>.mot</strong> OpenSim inverse kinematics file from your OpenCap session. The browser will run zero-phase Butterworth filtering and compute all 19 OpenLESS criteria directly on client side.
+          Upload your OpenCap <strong>.trc</strong> (marker coordinates) and <strong>.mot</strong> (inverse kinematics) files. The platform performs in-browser zero-phase Butterworth filtering and evaluates all 19 LESS criteria in real-time.
         </p>
 
-        <!-- Drop Zone -->
-        <div id="drop-zone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-xl p-8 text-center cursor-pointer transition bg-slate-50 hover:bg-blue-50/50">
-          <i class="fas fa-file-alt text-3xl text-slate-400 mb-2"></i>
-          <p class="text-sm font-semibold text-slate-800">Drag & drop .trc and .mot files here</p>
-          <p class="text-xs text-slate-500 mt-1">or click to browse from your computer</p>
-          <input type="file" id="file-upload-input" multiple accept=".trc,.mot" class="hidden">
+        <!-- Drop Zone (Clickable) -->
+        <div id="drop-zone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-xl p-8 text-center cursor-pointer transition bg-slate-50 hover:bg-blue-50/50 select-none">
+          <i class="fas fa-file-upload text-3xl text-blue-500 mb-2"></i>
+          <p class="text-sm font-semibold text-slate-800">Click to browse or drag & drop files here</p>
+          <p class="text-xs text-slate-500 mt-1">Select both <strong>.trc</strong> and <strong>.mot</strong> files (plus optional <strong>.mp4</strong> video)</p>
+          <input type="file" id="file-upload-input" multiple accept=".trc,.mot,.TRC,.MOT,.mp4,.MP4,.mov,.MOV" class="hidden">
         </div>
 
         <!-- Selected Files List -->
         <div class="space-y-1.5 text-xs">
           <div class="flex items-center justify-between p-2 rounded bg-slate-100">
             <span class="font-medium text-slate-600">Marker Coordinates (.trc):</span>
-            <span id="trc-filename" class="font-bold text-slate-800">No file selected</span>
+            <span id="trc-filename" class="font-bold text-slate-500">No file selected</span>
           </div>
           <div class="flex items-center justify-between p-2 rounded bg-slate-100">
             <span class="font-medium text-slate-600">Kinematics (.mot):</span>
-            <span id="mot-filename" class="font-bold text-slate-800">No file selected</span>
+            <span id="mot-filename" class="font-bold text-slate-500">No file selected</span>
           </div>
         </div>
 
-        <div id="upload-status" class="text-xs font-semibold text-blue-600 text-center"></div>
+        <!-- Sample Datasets Quick Test -->
+        <div class="border-t border-slate-100 pt-3 flex items-center justify-between">
+          <span class="text-[11px] text-slate-500 font-medium">Or test sample data:</span>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="loadSampleFiles('Stepoff-Leaning')" class="px-2.5 py-1 text-xs font-semibold rounded bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+              <i class="fas fa-play text-blue-600 mr-1"></i> Sample 1 (Soft)
+            </button>
+            <button type="button" onclick="loadSampleFiles('Stepoff-Upright')" class="px-2.5 py-1 text-xs font-semibold rounded bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+              <i class="fas fa-play text-rose-600 mr-1"></i> Sample 2 (Stiff)
+            </button>
+          </div>
+        </div>
 
-        <div class="flex items-center justify-end gap-2 pt-2">
+        <div id="upload-status" class="text-xs font-semibold text-center min-h-[1.5rem]"></div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
           <button onclick="closeUploadModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg transition">Cancel</button>
-          <button id="btn-process-custom" disabled class="opacity-50 cursor-not-allowed px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition shadow-sm">
+          <button id="btn-process-custom" disabled class="opacity-50 cursor-not-allowed px-4 py-2 text-xs font-bold text-white bg-blue-600 rounded-lg transition shadow-sm">
             Evaluate OpenLESS Score
           </button>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Toast Notification Notification Banner -->
+  <div id="toast-notification" class="hidden fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-lg shadow-xl border border-slate-700 flex items-center transition-all duration-300 translate-y-12 opacity-0"></div>
 
   <!-- Footer -->
   <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
@@ -558,7 +592,7 @@
         <a href="https://doi.org/10.1101/2024.11.28.24318160" target="_blank" class="text-blue-600 underline">DOI: 10.1101/2024.11.28.24318160</a>.
       </p>
       <p class="text-[11px] text-slate-400">
-        OpenCap markless motion capture pipeline · Powered by OpenSim & TensorFlow · Designed for biomechanics research and student education.
+        OpenCap markerless motion capture pipeline · Powered by OpenSim & TensorFlow · Designed for biomechanics research and student education.
       </p>
     </div>
   </footer>
@@ -577,6 +611,27 @@
       } else {
         icon.className = 'fas fa-chevron-up text-blue-700';
         label.innerText = 'Hide Explanation';
+      }
+    }
+
+    async function loadSampleFiles(trialName) {
+      const statusElem = document.getElementById('upload-status');
+      if (statusElem) statusElem.innerHTML = '<span class="text-blue-600 font-medium"><i class="fas fa-spinner fa-spin mr-1"></i> Loading and processing sample files...</span>';
+      try {
+        const trcRes = await fetch(`data/${trialName}.trc`);
+        const motRes = await fetch(`data/${trialName}.mot`);
+        if (!trcRes.ok || !motRes.ok) throw new Error('Could not fetch sample files.');
+        const trcText = await trcRes.text();
+        const motText = await motRes.text();
+        const parsed = runClientSideOpenLESS(trcText, motText, `Sample_${trialName}`);
+        parsed.video_cam0 = `videos/${trialName}_sync.mp4`;
+        parsed.video_cam1 = `videos/${trialName}_cam1_sync.mp4`;
+        customTrialData = parsed;
+        closeUploadModal();
+        loadTrial('custom');
+        showNotification(`Success! Analyzed sample dataset "${trialName}" (Score: ${parsed.scores.Total_Score}/19)`);
+      } catch (e) {
+        if (statusElem) statusElem.innerHTML = `<span class="text-rose-600 font-semibold">Error loading sample: ${e.message}</span>`;
       }
     }
   </script>

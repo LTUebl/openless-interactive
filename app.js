@@ -53,89 +53,89 @@ const LESS_CRITERIA_INFO = [
     name: "Asymmetrical Foot Timing",
     phase: "Initial Contact (Frontal/Symmetry)",
     rule: "One foot lands > 34 ms (> 2 frames at 60 Hz) before the other",
-    details: "Time difference between left and right initial ground contact.",
-    clinical: "Uneven ground contact timing causes the early limb to bear an asymmetric shock impulse, frequently reflecting neuromuscular asymmetry or limb preference."
+    details: "Difference between left and right initial contact timestamps.",
+    clinical: "Asymmetric foot contact forces the first-landing limb to absorb an excessive share of the total kinetic energy, predisposing it to overload injury."
   },
   {
     id: 6,
     key: "6_Asymmetrical_HeelToe_ToeHeel",
-    name: "Asymmetrical Foot Landing (Toe-Heel / Heel-Toe)",
+    name: "Asymmetrical Foot Strike Posture",
     phase: "Initial Contact (Frontal/Symmetry)",
-    rule: "One foot lands heel-to-toe while the other lands toe-to-heel",
-    details: "Discrepancy in initial strike mechanic between limbs.",
-    clinical: "Differences in foot contact mechanics between limbs indicate poor bilateral coordination and uneven limb stiffness."
+    rule: "One foot lands heel-first while other lands toe-first",
+    details: "Comparison of left vs. right sagittal ankle strike mechanics.",
+    clinical: "Discordant foot strike strategies indicate poor neuromuscular motor programming and uneven bilateral loading upon ground impact."
   },
   {
     id: 7,
     key: "7_Lateral_Trunk_Flexion_IC_T",
     name: "Lateral Trunk Flexion at Initial Contact",
     phase: "Initial Contact (Frontal/Symmetry)",
-    rule: "> 5° lateral lumbar bending to either side",
-    details: "OpenCap lumbar bending angle at initial contact.",
-    clinical: "Lateral trunk tilt shifts the ground reaction force vector away from the knee joint center, dramatically amplifying the external knee abduction (valgus) moment."
+    rule: "> 5° lateral trunk bending to either side",
+    details: "Lumbar bending angle from OpenSim inverse kinematics.",
+    clinical: "Lateral trunk tilt shifts the body center of mass outside the base of support, creating large frontal-plane knee abduction moments that directly stress the ACL."
   },
   {
     id: 8,
     key: "8_Medial_Knee_IC_T",
-    name: "Medial Knee Position / Valgus at Initial Contact",
-    phase: "Initial Contact (Frontal/Symmetry)",
+    name: "Medial Knee Position / Valgus at IC",
+    phase: "Initial Contact (Frontal/Alignment)",
     rule: "Hip rotation > 8° & adduction > -1°, or hip adduction > 1°",
-    details: "Composite measure of dynamic knee valgus at ground contact.",
-    clinical: "Medial knee displacement at initial contact stresses the medial collateral ligament (MCL) and places direct multi-planar strain on the ACL."
+    details: "OpenLESS algorithm criteria for inward knee collapse at initial contact.",
+    clinical: "Landing with knees positioned medially relative to the foot creates immediate valgus torque, placing high tensile strain on both the ACL and MCL."
   },
   {
     id: 9,
     key: "9_Stance_Wide_IC_T",
-    name: "Wide Stance Width at Initial Contact",
-    phase: "Initial Contact (Frontal/Symmetry)",
-    rule: "> 12° hip abduction at IC (adduction < -12°)",
-    details: "Excessive foot separation relative to hip centers.",
-    clinical: "A very wide landing stance widens the angle of the ground reaction force vector, increasing frontal plane abduction moments on the knee."
+    name: "Stance Width (Wide)",
+    phase: "Initial Contact (Frontal/Alignment)",
+    rule: "Hip adduction < -12° on either limb at ground contact",
+    details: "Excessive hip abduction (wide stance).",
+    clinical: "An excessively wide landing posture increases the lateral ground reaction force component directed medially toward the knee joint center, amplifying dynamic valgus moments."
   },
   {
     id: 10,
     key: "10_Stance_Narrow_IC_T",
-    name: "Narrow Stance Width at Initial Contact",
-    phase: "Initial Contact (Frontal/Symmetry)",
-    rule: "> 0° hip adduction at initial contact",
-    details: "Feet positioned closer than hip width.",
-    clinical: "A narrow base of support impairs lateral balance and dynamic stability during sudden deceleration."
+    name: "Stance Width (Narrow)",
+    phase: "Initial Contact (Frontal/Alignment)",
+    rule: "Hip adduction > 0° on either limb at ground contact",
+    details: "Hip adduction at contact (narrow stance width).",
+    clinical: "A very narrow stance reduces base of support stability, forcing rapid compensations in the coronal plane."
   },
   {
     id: 11,
     key: "11_IR_Foot_IC_T",
-    name: "Foot Inward Rotation at Initial Contact",
+    name: "Internal Foot Rotation at Initial Contact",
     phase: "Initial Contact (Transverse)",
-    rule: "> 10° inward foot rotation (subtalar angle > 10°)",
-    details: "Excessive internal rotation / supination of the foot.",
-    clinical: "Internal foot rotation during landing couples with internal tibial rotation, loading the cruciate ligaments."
+    rule: "Subtalar angle > 10° (toes pointed inward)",
+    details: "Subtalar coordinate in OpenSim kinematic model.",
+    clinical: "Inward foot rotation combined with knee valgus produces coupled tibial internal rotation and anterior translation, loading the ACL."
   },
   {
     id: 12,
     key: "12_ER_Foot_IC_T",
-    name: "Foot Outward Rotation at Initial Contact",
+    name: "External Foot Rotation at Initial Contact",
     phase: "Initial Contact (Transverse)",
-    rule: "> 15° outward foot rotation (subtalar angle < -15°)",
-    details: "Excessive external rotation / pronation of the foot.",
-    clinical: "Excessive external foot rotation combined with knee flexion creates a dynamic 'valgus-collapse' mechanism that sharply increases ACL strain."
+    rule: "Subtalar angle < -15° (toes pointed outward)",
+    details: "Subtalar eversion/external rotation in OpenSim model.",
+    clinical: "Excessive external foot rotation alters lower kinetic chain torque transmission, contributing to dynamic valgus collapse."
   },
   {
     id: 13,
     key: "13_Knee_Flexion_Displacement_T",
-    name: "Knee Flexion Displacement (Maximum)",
+    name: "Knee Flexion Displacement",
     phase: "Maximum Displacement",
-    rule: "< 65° maximum knee flexion reached during stance",
-    details: "Peak knee flexion angle from initial contact to toe-off.",
-    clinical: "Achieving less than 65° of knee flexion indicates stiff knee mechanics and failure to attenuate vertical kinetic energy over a sufficient distance."
+    rule: "< 65° maximum knee flexion angle during stance phase",
+    details: "Peak knee flexion achieved between ground contact and maximum depth.",
+    clinical: "Failing to flex the knees past 65° results in a 'stiff' impact, producing sharp ground reaction force peaks that overwhelm the passive ligaments."
   },
   {
     id: 14,
     key: "14_Hip_Flexion_Displacement_T",
-    name: "Hip Flexion Displacement (Maximum)",
+    name: "Hip Flexion Displacement",
     phase: "Maximum Displacement",
-    rule: "< 45° hip flexion at frame of maximum knee flexion",
-    details: "Hip flexion angle evaluated at maximum knee flexion.",
-    clinical: "Inadequate hip flexion displacement transfers greater deceleration burden to the knee joint, increasing peak joint contact stresses."
+    rule: "< 45° maximum hip flexion angle during stance phase",
+    details: "Peak hip flexion achieved between ground contact and maximum depth.",
+    clinical: "Limited hip displacement prevents the powerful hip extensor musculature (gluteus maximus, hamstrings) from performing negative eccentric work."
   },
   {
     id: 15,
@@ -144,7 +144,7 @@ const LESS_CRITERIA_INFO = [
     phase: "Maximum Displacement",
     rule: "< 10° displacement between IC and maximum position",
     details: "Difference in lumbar extension from initial contact to peak landing depth.",
-    clinical: "A rigid, stationary trunk fails to engage the powerful posterior chain (hamstrings, gluteus maximus, and erector spinae) to absorb the body's downward momentum."
+    clinical: "A rigid, stationary trunk fails to engage the posterior chain to absorb the body's downward momentum."
   },
   {
     id: 16,
@@ -193,6 +193,10 @@ let currentFilter = 'all';
 let isPlaying = false;
 let videoTimer = null;
 let customTrialData = null;
+let uploadedTRC = null;
+let uploadedMOT = null;
+let uploadedVideo = null;
+let uploadedVideoBlobUrl = null;
 
 // Initialize on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -207,10 +211,10 @@ function initUI() {
 
 function setupEventListeners() {
   // Trial switcher buttons
-  document.getElementById('btn-leaning').addEventListener('click', () => loadTrial('Stepoff-Leaning'));
-  document.getElementById('btn-upright').addEventListener('click', () => loadTrial('Stepoff-Upright'));
-  document.getElementById('btn-compare').addEventListener('click', () => loadComparisonView());
-  document.getElementById('btn-custom').addEventListener('click', () => showUploadModal());
+  document.getElementById('btn-leaning')?.addEventListener('click', () => loadTrial('Stepoff-Leaning'));
+  document.getElementById('btn-upright')?.addEventListener('click', () => loadTrial('Stepoff-Upright'));
+  document.getElementById('btn-compare')?.addEventListener('click', () => loadComparisonView());
+  document.getElementById('btn-custom')?.addEventListener('click', () => showUploadModal());
 
   // Camera toggle
   const cam0Btn = document.getElementById('btn-cam0');
@@ -225,11 +229,12 @@ function setupEventListeners() {
     btn.addEventListener('click', (e) => {
       document.querySelectorAll('.chart-tab-btn').forEach(b => {
         b.classList.remove('bg-blue-600', 'text-white');
-        b.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+        b.classList.add('bg-slate-100', 'text-slate-700', 'hover:bg-slate-200');
       });
-      e.target.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-      e.target.classList.add('bg-blue-600', 'text-white');
-      currentChartTab = e.target.dataset.tab;
+      const target = e.currentTarget || e.target;
+      target.classList.remove('bg-slate-100', 'text-slate-700', 'hover:bg-slate-200');
+      target.classList.add('bg-blue-600', 'text-white');
+      currentChartTab = target.dataset.tab;
       renderActiveChart();
     });
   });
@@ -238,12 +243,13 @@ function setupEventListeners() {
   document.querySelectorAll('.score-filter-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       document.querySelectorAll('.score-filter-btn').forEach(b => {
-        b.classList.remove('border-blue-600', 'text-blue-600', 'font-semibold');
-        b.classList.add('border-transparent', 'text-gray-500');
+        b.classList.remove('border-blue-600', 'text-blue-600');
+        b.classList.add('border-transparent', 'text-slate-500');
       });
-      e.target.classList.remove('border-transparent', 'text-gray-500');
-      e.target.classList.add('border-blue-600', 'text-blue-600', 'font-semibold');
-      currentFilter = e.target.dataset.filter;
+      const target = e.currentTarget || e.target;
+      target.classList.remove('border-transparent', 'text-slate-500');
+      target.classList.add('border-blue-600', 'text-blue-600');
+      currentFilter = target.dataset.filter;
       renderScorecard();
     });
   });
@@ -273,7 +279,7 @@ function setupEventListeners() {
     });
   }
 
-  // Step buttons
+  // Step buttons (1/60s)
   const stepBackBtn = document.getElementById('step-back-btn');
   const stepFwdBtn = document.getElementById('step-fwd-btn');
   if (stepBackBtn && videoElem) {
@@ -283,13 +289,13 @@ function setupEventListeners() {
   }
   if (stepFwdBtn && videoElem) {
     stepFwdBtn.addEventListener('click', () => {
-      videoElem.currentTime = Math.min(videoElem.duration, videoElem.currentTime + 1/60);
+      videoElem.currentTime = Math.min(videoElem.duration || 10, videoElem.currentTime + 1/60);
     });
   }
 
   // Download buttons
-  document.getElementById('btn-download-csv').addEventListener('click', downloadCurrentCSV);
-  document.getElementById('btn-print-report').addEventListener('click', () => window.print());
+  document.getElementById('btn-download-csv')?.addEventListener('click', downloadCurrentCSV);
+  document.getElementById('btn-print-report')?.addEventListener('click', () => window.print());
 
   // Setup Custom File Upload Drag and Drop
   setupDropZone();
@@ -298,8 +304,8 @@ function setupEventListeners() {
 function loadTrial(trialKey) {
   currentTrial = trialKey;
   updateTrialButtons();
-  document.getElementById('comparison-container').classList.add('hidden');
-  document.getElementById('single-trial-container').classList.remove('hidden');
+  document.getElementById('comparison-container')?.classList.add('hidden');
+  document.getElementById('single-trial-container')?.classList.remove('hidden');
 
   const trialData = (trialKey === 'custom' && customTrialData) ? customTrialData : PRECOMPUTED_DATA[trialKey];
   if (!trialData) return;
@@ -307,7 +313,7 @@ function loadTrial(trialKey) {
   // Update Summary Cards & Title
   updateTrialHeader(trialKey, trialData);
 
-  // Update Video
+  // Update Video or Custom Overlay
   updateVideoSource(trialData);
 
   // Render Scorecard
@@ -325,19 +331,19 @@ function updateTrialButtons() {
 
   [btnLean, btnUpr, btnComp, btnCust].forEach(b => {
     if (b) {
-      b.classList.remove('ring-4', 'ring-blue-300', 'border-blue-700', 'font-bold');
-      b.classList.add('border-gray-200');
+      b.classList.remove('ring-4', 'ring-blue-100', 'ring-emerald-100', 'ring-rose-100', 'ring-indigo-100', 'ring-amber-100', 'border-emerald-600', 'border-rose-600', 'border-indigo-600', 'border-amber-600', 'font-bold');
+      b.classList.add('border-slate-200');
     }
   });
 
   if (currentTrial === 'Stepoff-Leaning' && btnLean) {
-    btnLean.classList.add('ring-4', 'ring-emerald-300', 'border-emerald-600', 'font-bold');
+    btnLean.classList.add('ring-4', 'ring-emerald-100', 'border-emerald-600', 'font-bold');
   } else if (currentTrial === 'Stepoff-Upright' && btnUpr) {
-    btnUpr.classList.add('ring-4', 'ring-rose-300', 'border-rose-600', 'font-bold');
+    btnUpr.classList.add('ring-4', 'ring-rose-100', 'border-rose-600', 'font-bold');
   } else if (currentTrial === 'comparison' && btnComp) {
-    btnComp.classList.add('ring-4', 'ring-indigo-300', 'border-indigo-600', 'font-bold');
+    btnComp.classList.add('ring-4', 'ring-indigo-100', 'border-indigo-600', 'font-bold');
   } else if (currentTrial === 'custom' && btnCust) {
-    btnCust.classList.add('ring-4', 'ring-amber-300', 'border-amber-600', 'font-bold');
+    btnCust.classList.add('ring-4', 'ring-amber-100', 'border-amber-600', 'font-bold');
   }
 }
 
@@ -369,14 +375,15 @@ function updateTrialHeader(trialKey, trialData) {
     riskElem.innerText = 'HIGH ACL INJURY RISK';
     descElem.innerText = 'The subject maintains an extended, rigid upright spine (0.1° displacement), lands stiffly with limited knee/hip flexion, asymmetric heel-first strike on the left leg, and dynamic knee valgus collapse with a 10.8° lateral hip shift.';
   } else {
-    titleElem.innerText = `Custom Upload: ${trialKey}`;
+    const trialName = trialData.name || 'Custom OpenCap Dataset';
+    titleElem.innerText = `Custom Upload: ${trialName}`;
     badgeElem.className = 'px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300';
     badgeElem.innerHTML = '<i class="fas fa-file-upload mr-1"></i> USER DATA';
     totalScoreElem.innerText = `${total} / 19`;
-    totalScoreElem.className = total <= 5 ? 'text-4xl font-extrabold text-emerald-600' : 'text-4xl font-extrabold text-rose-600';
-    riskElem.className = total <= 5 ? 'px-3 py-1 text-xs font-bold rounded-md bg-emerald-500 text-white' : 'px-3 py-1 text-xs font-bold rounded-md bg-rose-600 text-white';
-    riskElem.innerText = total <= 4 ? 'EXCELLENT' : (total <= 6 ? 'GOOD' : (total <= 8 ? 'MODERATE' : 'POOR / HIGH RISK'));
-    descElem.innerText = 'Computed directly in-browser using client-side OpenLESS signal processing engine.';
+    totalScoreElem.className = total <= 4 ? 'text-4xl font-extrabold text-emerald-600' : (total <= 7 ? 'text-4xl font-extrabold text-amber-600' : 'text-4xl font-extrabold text-rose-600');
+    riskElem.className = total <= 4 ? 'px-3 py-1 text-xs font-bold rounded-md bg-emerald-500 text-white' : (total <= 7 ? 'px-3 py-1 text-xs font-bold rounded-md bg-amber-500 text-white' : 'px-3 py-1 text-xs font-bold rounded-md bg-rose-600 text-white');
+    riskElem.innerText = total <= 4 ? 'LOW ACL INJURY RISK' : (total <= 7 ? 'MODERATE ACL INJURY RISK' : 'HIGH ACL INJURY RISK');
+    descElem.innerText = `Evaluated in-browser using the client-side OpenLESS engine from uploaded OpenCap files (${trialData.trcName} and ${trialData.motName}). Contact detected at t = ${trialData.events ? trialData.events.ic_r_time.toFixed(3) : '0.000'}s.`;
   }
 
   // Update Gauge bar
@@ -396,20 +403,31 @@ function updateTrialHeader(trialKey, trialData) {
 
 function updateVideoSource(trialData) {
   const videoElem = document.getElementById('landing-video');
+  const overlay = document.getElementById('video-custom-overlay');
   if (!videoElem) return;
 
   const src = (currentCam === 'cam1' && trialData.video_cam1) ? trialData.video_cam1 : trialData.video_cam0;
   if (src) {
+    if (overlay) overlay.classList.add('hidden');
     videoElem.src = src;
     videoElem.load();
     videoElem.onloadedmetadata = () => {
       const scrubber = document.getElementById('video-scrubber');
       if (scrubber) {
-        scrubber.max = videoElem.duration;
+        scrubber.max = videoElem.duration || 3;
         scrubber.value = 0;
       }
-      document.getElementById('video-duration').innerText = formatTime(videoElem.duration);
+      const dur = document.getElementById('video-duration');
+      if (dur) dur.innerText = formatTime(videoElem.duration);
     };
+  } else {
+    // Custom trial without attached video
+    videoElem.pause();
+    if (overlay) {
+      overlay.classList.remove('hidden');
+      const filenameLabel = document.getElementById('overlay-trial-name');
+      if (filenameLabel) filenameLabel.innerText = trialData.name || 'Custom OpenCap Trial';
+    }
   }
 }
 
@@ -418,11 +436,11 @@ function switchCamera(camKey) {
   const btn0 = document.getElementById('btn-cam0');
   const btn1 = document.getElementById('btn-cam1');
   if (camKey === 'cam0') {
-    btn0.className = 'px-3 py-1 text-xs font-bold rounded bg-blue-600 text-white';
-    btn1.className = 'px-3 py-1 text-xs font-bold rounded bg-gray-200 text-gray-700 hover:bg-gray-300';
+    if (btn0) btn0.className = 'px-3 py-1 text-xs font-bold rounded bg-blue-600 text-white transition';
+    if (btn1) btn1.className = 'px-3 py-1 text-xs font-bold rounded bg-transparent text-slate-700 hover:bg-slate-300 transition';
   } else {
-    btn1.className = 'px-3 py-1 text-xs font-bold rounded bg-blue-600 text-white';
-    btn0.className = 'px-3 py-1 text-xs font-bold rounded bg-gray-200 text-gray-700 hover:bg-gray-300';
+    if (btn1) btn1.className = 'px-3 py-1 text-xs font-bold rounded bg-blue-600 text-white transition';
+    if (btn0) btn0.className = 'px-3 py-1 text-xs font-bold rounded bg-transparent text-slate-700 hover:bg-slate-300 transition';
   }
   const trialData = (currentTrial === 'custom' && customTrialData) ? customTrialData : PRECOMPUTED_DATA[currentTrial];
   if (trialData) updateVideoSource(trialData);
@@ -455,7 +473,7 @@ function updateVideoScrubber() {
 }
 
 function formatTime(seconds) {
-  if (isNaN(seconds)) return '0:00.00';
+  if (isNaN(seconds) || seconds === null) return '0:00.00';
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);
   const ms = Math.floor((seconds % 1) * 100);
@@ -484,7 +502,7 @@ function renderScorecard() {
   }
 
   if (filteredList.length === 0) {
-    container.innerHTML = '<div class="p-6 text-center text-gray-500 font-medium">No criteria match the selected filter.</div>';
+    container.innerHTML = '<div class="p-6 text-center text-slate-500 font-medium">No criteria match the selected filter.</div>';
     return;
   }
 
@@ -494,42 +512,44 @@ function renderScorecard() {
 
     // Build measured value string
     let measuredStr = '';
+    const fmt = (v) => (v !== undefined && v !== null && !isNaN(v)) ? Number(v).toFixed(1) : 'N/A';
+
     if (item.id === 1) {
-      measuredStr = `L: ${scores['1_Knee_Flexion_IC_L_deg']}°, R: ${scores['1_Knee_Flexion_IC_R_deg']}°`;
+      measuredStr = `L: ${fmt(scores['1_Knee_Flexion_IC_L_deg'])}°, R: ${fmt(scores['1_Knee_Flexion_IC_R_deg'])}°`;
     } else if (item.id === 2) {
-      measuredStr = `L: ${scores['2_Hip_Flexion_IC_L_deg']}°, R: ${scores['2_Hip_Flexion_IC_R_deg']}°`;
+      measuredStr = `L: ${fmt(scores['2_Hip_Flexion_IC_L_deg'])}°, R: ${fmt(scores['2_Hip_Flexion_IC_R_deg'])}°`;
     } else if (item.id === 3) {
-      measuredStr = `${scores['3_Trunk_Flexion_IC_deg']}° (lumbar ext)`;
+      measuredStr = `${fmt(scores['3_Trunk_Flexion_IC_deg'])}° (lumbar ext)`;
     } else if (item.id === 4) {
-      measuredStr = (scores['4_Ankle_Plantar_Flexion_IC_L'] === 1 || scores['4_Ankle_Plantar_Flexion_IC_R'] === 1) ? 'Heel strike first' : 'Forefoot strike first';
+      measuredStr = (scores['4_Ankle_Plantar_Flexion_IC_L'] === 1 || scores['4_Ankle_Plantar_Flexion_IC_R'] === 1 || scores['4_Ankle_Plantar_Flexion_IC_T'] === 1) ? 'Heel strike first' : 'Forefoot strike first';
     } else if (item.id === 5) {
       measuredStr = isError ? '> 34 ms difference' : 'Synchronous (< 34 ms)';
     } else if (item.id === 6) {
       measuredStr = isError ? 'One foot heel, other toe' : 'Symmetric foot landing';
     } else if (item.id === 7) {
-      measuredStr = `${scores['7_Lateral_Trunk_Flexion_IC_deg']}° lateral bending`;
+      measuredStr = `${fmt(scores['7_Lateral_Trunk_Flexion_IC_deg'])}° lateral bending`;
     } else if (item.id === 8) {
-      measuredStr = `rot: ${scores['8_Medial_Knee_IC_L_deg']}°, add: ${scores['9_Stance_Hip_abd_IC_L_deg']}°`;
+      measuredStr = `rot: ${fmt(scores['8_Medial_Knee_IC_L_deg'])}°, add: ${fmt(scores['9_Stance_Hip_abd_IC_L_deg'])}°`;
     } else if (item.id === 9) {
-      measuredStr = `L add: ${scores['9_Stance_Hip_abd_IC_L_deg']}°, R add: ${scores['9_Stance_Hip_abd_IC_R_deg']}°`;
+      measuredStr = `L add: ${fmt(scores['9_Stance_Hip_abd_IC_L_deg'])}°, R add: ${fmt(scores['9_Stance_Hip_abd_IC_R_deg'])}°`;
     } else if (item.id === 10) {
-      measuredStr = `L add: ${scores['9_Stance_Hip_abd_IC_L_deg']}°, R add: ${scores['9_Stance_Hip_abd_IC_R_deg']}°`;
+      measuredStr = `L add: ${fmt(scores['9_Stance_Hip_abd_IC_L_deg'])}°, R add: ${fmt(scores['9_Stance_Hip_abd_IC_R_deg'])}°`;
     } else if (item.id === 11) {
-      measuredStr = `L: ${scores['11_IR_Foot_IC_L_deg']}°, R: ${scores['11_IR_Foot_IC_R_deg']}°`;
+      measuredStr = `L: ${fmt(scores['11_IR_Foot_IC_L_deg'])}°, R: ${fmt(scores['11_IR_Foot_IC_R_deg'])}°`;
     } else if (item.id === 12) {
-      measuredStr = `L: ${scores['12_ER_Foot_IC_L_deg']}°, R: ${scores['12_ER_Foot_IC_R_deg']}°`;
+      measuredStr = `L: ${fmt(scores['12_ER_Foot_IC_L_deg'] || scores['11_IR_Foot_IC_L_deg'])}°, R: ${fmt(scores['12_ER_Foot_IC_R_deg'] || scores['11_IR_Foot_IC_R_deg'])}°`;
     } else if (item.id === 13) {
-      measuredStr = `L: ${scores['13_Knee_Flexion_Displacement_L_deg']}°, R: ${scores['13_Knee_Flexion_Displacement_R_deg']}°`;
+      measuredStr = `L: ${fmt(scores['13_Knee_Flexion_Displacement_L_deg'])}°, R: ${fmt(scores['13_Knee_Flexion_Displacement_R_deg'])}°`;
     } else if (item.id === 14) {
-      measuredStr = `L: ${scores['14_Hip_Flexion_Displacement_L_deg']}°, R: ${scores['14_Hip_Flexion_Displacement_R_deg']}°`;
+      measuredStr = `L: ${fmt(scores['14_Hip_Flexion_Displacement_L_deg'])}°, R: ${fmt(scores['14_Hip_Flexion_Displacement_R_deg'])}°`;
     } else if (item.id === 15) {
       const disp = Math.abs((scores['3_Trunk_Flexion_IC_deg'] || 0) - (scores['15_Trunk_Flexion_Max_deg'] || 0));
-      measuredStr = `Displacement Δ: ${disp.toFixed(1)}°`;
+      measuredStr = `Displacement Δ: ${fmt(disp)}°`;
     } else if (item.id === 16) {
-      measuredStr = `L add: ${scores['17_Asymmetrical_Load_L_deg']}°, R add: ${scores['17_Asymmetrical_Load_R_deg']}°`;
+      measuredStr = `L add: ${fmt(scores['17_Asymmetrical_Load_L_deg'])}°, R add: ${fmt(scores['17_Asymmetrical_Load_R_deg'])}°`;
     } else if (item.id === 17) {
       const shift = Math.abs((scores['17_Asymmetrical_Load_L_deg'] || 0) - (scores['17_Asymmetrical_Load_R_deg'] || 0));
-      measuredStr = `Hip adduction diff: ${shift.toFixed(1)}°`;
+      measuredStr = `Hip adduction diff: ${fmt(shift)}°`;
     } else if (item.id === 18) {
       measuredStr = scoreVal === 0 ? 'Soft landing (0)' : (scoreVal === 1 ? 'Average (1)' : 'Stiff landing (2)');
     } else if (item.id === 19) {
@@ -537,7 +557,7 @@ function renderScorecard() {
     }
 
     const row = document.createElement('div');
-    row.className = `border-b border-gray-100 hover:bg-gray-50 transition p-3.5 ${isError ? 'bg-rose-50/40' : ''}`;
+    row.className = `border-b border-slate-100 hover:bg-slate-50 transition p-3.5 ${isError ? 'bg-rose-50/40' : ''}`;
 
     row.innerHTML = `
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
@@ -547,19 +567,19 @@ function renderScorecard() {
           </span>
           <div>
             <div class="flex items-center gap-2 flex-wrap">
-              <span class="font-bold text-gray-900 text-sm">${item.name}</span>
-              <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600 font-medium">${item.phase}</span>
+              <span class="font-bold text-slate-900 text-sm">${item.name}</span>
+              <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">${item.phase}</span>
             </div>
-            <div class="text-xs text-gray-500 mt-0.5">
-              <span class="font-semibold text-gray-700">Cutoff:</span> ${item.rule}
+            <div class="text-xs text-slate-500 mt-0.5">
+              <span class="font-semibold text-slate-700">Cutoff:</span> ${item.rule}
             </div>
           </div>
         </div>
 
         <div class="flex items-center gap-4 ml-9 md:ml-0 flex-shrink-0">
           <div class="text-right">
-            <div class="text-xs font-semibold text-gray-800">${measuredStr}</div>
-            <div class="text-[11px] text-gray-500">${item.details}</div>
+            <div class="text-xs font-semibold text-slate-800">${measuredStr}</div>
+            <div class="text-[11px] text-slate-500">${item.details}</div>
           </div>
           <div class="w-16 text-center">
             <span class="inline-block px-2.5 py-1 rounded-full text-xs font-extrabold ${isError ? 'bg-rose-600 text-white shadow-sm' : 'bg-emerald-500 text-white'}">
@@ -573,7 +593,7 @@ function renderScorecard() {
       </div>
 
       <!-- Expandable Drawer -->
-      <div id="drawer-${item.id}" class="hidden mt-2 pt-2 border-t border-gray-200/60 text-xs text-gray-700 bg-blue-50/50 p-2.5 rounded">
+      <div id="drawer-${item.id}" class="hidden mt-2 pt-2 border-t border-slate-200/60 text-xs text-slate-700 bg-blue-50/50 p-2.5 rounded">
         <p><strong class="text-blue-900">Clinical & Biomechanical Rationale:</strong> ${item.clinical}</p>
       </div>
     `;
@@ -609,6 +629,9 @@ function renderActiveChart() {
 
 function renderSagittalChart(trialData) {
   const kin = trialData.kinematics;
+  if (!kin || !kin.r_time_rel || kin.r_time_rel.length === 0) return;
+
+  const maxT = Math.max(...kin.r_time_rel);
   const traces = [
     {
       x: kin.r_time_rel,
@@ -653,16 +676,16 @@ function renderSagittalChart(trialData) {
   ];
 
   const layout = {
-    title: { text: `<b>Sagittal Plane Kinematics: ${currentTrial}</b>`, font: { size: 14 } },
+    title: { text: `<b>Sagittal Plane Kinematics: ${trialData.name || currentTrial}</b>`, font: { size: 14 } },
     xaxis: { title: 'Time from Initial Contact (seconds)', zeroline: false },
     yaxis: { title: 'Joint Angle (degrees)', zeroline: true },
     shapes: [
-      { type: 'line', x0: 0, x1: Math.max(...kin.r_time_rel), y0: 30, y1: 30, line: { color: '#9CA3AF', width: 1.5, dash: 'dot' } },
-      { type: 'line', x0: 0, x1: Math.max(...kin.r_time_rel), y0: 65, y1: 65, line: { color: '#1F2937', width: 1.5, dash: 'dot' } }
+      { type: 'line', x0: 0, x1: maxT, y0: 30, y1: 30, line: { color: '#9CA3AF', width: 1.5, dash: 'dot' } },
+      { type: 'line', x0: 0, x1: maxT, y0: 65, y1: 65, line: { color: '#1F2937', width: 1.5, dash: 'dot' } }
     ],
     annotations: [
-      { x: 0.05, y: 31, xref: 'x', yref: 'y', text: 'Knee IC Cutoff (30°)', showarrow: false, font: { size: 10, color: '#4B5563' } },
-      { x: 0.05, y: 66, xref: 'x', yref: 'y', text: 'Knee Max Cutoff (65°)', showarrow: false, font: { size: 10, color: '#1F2937' } }
+      { x: maxT * 0.1, y: 31, xref: 'x', yref: 'y', text: 'Knee IC Cutoff (30°)', showarrow: false, font: { size: 10, color: '#4B5563' } },
+      { x: maxT * 0.1, y: 66, xref: 'x', yref: 'y', text: 'Knee Max Cutoff (65°)', showarrow: false, font: { size: 10, color: '#1F2937' } }
     ],
     margin: { l: 50, r: 20, t: 40, b: 50 },
     legend: { orientation: 'h', y: -0.25 },
@@ -674,6 +697,9 @@ function renderSagittalChart(trialData) {
 
 function renderFrontalChart(trialData) {
   const kin = trialData.kinematics;
+  if (!kin || !kin.r_time_rel || kin.r_time_rel.length === 0) return;
+
+  const maxT = Math.max(...kin.r_time_rel);
   const traces = [
     {
       x: kin.r_time_rel,
@@ -718,15 +744,15 @@ function renderFrontalChart(trialData) {
   ];
 
   const layout = {
-    title: { text: `<b>Frontal & Transverse Kinematics (Valgus / Alignment): ${currentTrial}</b>`, font: { size: 14 } },
+    title: { text: `<b>Frontal & Transverse Kinematics (Valgus / Alignment): ${trialData.name || currentTrial}</b>`, font: { size: 14 } },
     xaxis: { title: 'Time from Initial Contact (seconds)' },
     yaxis: { title: 'Angle (degrees)' },
     shapes: [
-      { type: 'line', x0: 0, x1: Math.max(...kin.r_time_rel), y0: 1, y1: 1, line: { color: '#DC2626', width: 1.5, dash: 'dot' } },
-      { type: 'line', x0: 0, x1: Math.max(...kin.r_time_rel), y0: -12, y1: -12, line: { color: '#6B7280', width: 1, dash: 'dot' } }
+      { type: 'line', x0: 0, x1: maxT, y0: 1, y1: 1, line: { color: '#DC2626', width: 1.5, dash: 'dot' } },
+      { type: 'line', x0: 0, x1: maxT, y0: -12, y1: -12, line: { color: '#6B7280', width: 1, dash: 'dot' } }
     ],
     annotations: [
-      { x: 0.05, y: 2, xref: 'x', yref: 'y', text: 'Hip Adduction Valgus Threshold (> 1°)', showarrow: false, font: { size: 10, color: '#DC2626' } }
+      { x: maxT * 0.1, y: 2, xref: 'x', yref: 'y', text: 'Hip Adduction Valgus Threshold (> 1°)', showarrow: false, font: { size: 10, color: '#DC2626' } }
     ],
     margin: { l: 50, r: 20, t: 40, b: 50 },
     legend: { orientation: 'h', y: -0.25 },
@@ -738,6 +764,8 @@ function renderFrontalChart(trialData) {
 
 function renderEventChart(trialData) {
   const coords = trialData.coordinates;
+  if (!coords || !coords.time || coords.time.length === 0) return;
+
   const traces = [
     {
       x: coords.time,
@@ -773,21 +801,30 @@ function renderEventChart(trialData) {
     }
   ];
 
-  // Draw IC line
-  const icTime = currentTrial === 'Stepoff-Leaning' ? 1.800 : 1.067;
-  const toTime = currentTrial === 'Stepoff-Leaning' ? 2.717 : 1.350;
+  let icTime = 1.800;
+  let toTime = 2.717;
+
+  if (trialData.events) {
+    icTime = trialData.events.ic_r_time || trialData.events.ic_l_time || 1.8;
+    toTime = trialData.events.to_r_time || trialData.events.to_l_time || (icTime + 0.8);
+  } else if (currentTrial === 'Stepoff-Upright') {
+    icTime = 1.067;
+    toTime = 1.350;
+  }
+
+  const maxY = Math.max(...coords.lt_f.concat(coords.rt_f));
 
   const layout = {
-    title: { text: `<b>Ground Contact Event Detection (Toe & Heel Y Coordinates): ${currentTrial}</b>`, font: { size: 14 } },
+    title: { text: `<b>Ground Contact Event Detection (Toe & Heel Y Coordinates): ${trialData.name || currentTrial}</b>`, font: { size: 14 } },
     xaxis: { title: 'Recording Time (seconds)' },
     yaxis: { title: 'Vertical Height (meters)' },
     shapes: [
-      { type: 'line', x0: icTime, x1: icTime, y0: 0, y1: 0.5, line: { color: '#16A34A', width: 2, dash: 'dash' } },
-      { type: 'line', x0: toTime, x1: toTime, y0: 0, y1: 0.5, line: { color: '#DC2626', width: 2, dash: 'dash' } }
+      { type: 'line', x0: icTime, x1: icTime, y0: 0, y1: maxY * 1.1, line: { color: '#16A34A', width: 2, dash: 'dash' } },
+      { type: 'line', x0: toTime, x1: toTime, y0: 0, y1: maxY * 1.1, line: { color: '#DC2626', width: 2, dash: 'dash' } }
     ],
     annotations: [
-      { x: icTime, y: 0.45, text: `Initial Contact (${icTime}s)`, font: { color: '#16A34A', size: 11 }, showarrow: true, arrowhead: 2 },
-      { x: toTime, y: 0.45, text: `Toe-Off (${toTime}s)`, font: { color: '#DC2626', size: 11 }, showarrow: true, arrowhead: 2 }
+      { x: icTime, y: maxY * 0.95, text: `Initial Contact (${icTime.toFixed(3)}s)`, font: { color: '#16A34A', size: 11 }, showarrow: true, arrowhead: 2 },
+      { x: toTime, y: maxY * 0.95, text: `Toe-Off (${toTime.toFixed(3)}s)`, font: { color: '#DC2626', size: 11 }, showarrow: true, arrowhead: 2 }
     ],
     margin: { l: 50, r: 20, t: 40, b: 50 },
     legend: { orientation: 'h', y: -0.25 },
@@ -800,8 +837,8 @@ function renderEventChart(trialData) {
 function loadComparisonView() {
   currentTrial = 'comparison';
   updateTrialButtons();
-  document.getElementById('single-trial-container').classList.add('hidden');
-  document.getElementById('comparison-container').classList.remove('hidden');
+  document.getElementById('single-trial-container')?.classList.add('hidden');
+  document.getElementById('comparison-container')?.classList.remove('hidden');
 
   renderComparisonCharts();
 }
@@ -866,25 +903,33 @@ function downloadCurrentCSV() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
-  link.setAttribute('download', `${currentTrial}_openless_scores.csv`);
+  link.setAttribute('download', `${trialData.name || currentTrial}_openless_scores.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 }
 
 function showUploadModal() {
-  document.getElementById('upload-modal').classList.remove('hidden');
+  document.getElementById('upload-modal')?.classList.remove('hidden');
 }
 
 function closeUploadModal() {
-  document.getElementById('upload-modal').classList.add('hidden');
+  document.getElementById('upload-modal')?.classList.add('hidden');
 }
 
 // Setup Custom OpenCap Data Dropzone
 function setupDropZone() {
   const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('file-upload-input');
+  const processBtn = document.getElementById('btn-process-custom');
   if (!dropZone || !fileInput) return;
+
+  // Make clicking anywhere on the dropZone open the file dialog
+  dropZone.addEventListener('click', (e) => {
+    if (e.target !== fileInput) {
+      fileInput.click();
+    }
+  });
 
   dropZone.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -898,249 +943,519 @@ function setupDropZone() {
   dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     dropZone.classList.remove('border-blue-500', 'bg-blue-50');
-    handleFiles(e.dataTransfer.files);
+    if (e.dataTransfer && e.dataTransfer.files) {
+      handleFiles(e.dataTransfer.files);
+    }
   });
 
   fileInput.addEventListener('change', (e) => {
-    handleFiles(e.target.files);
+    if (e.target.files) {
+      handleFiles(e.target.files);
+    }
   });
+
+  processBtn?.addEventListener('click', processUploadedData);
 }
 
-let uploadedTRC = null;
-let uploadedMOT = null;
-
 function handleFiles(files) {
+  if (!files || files.length === 0) return;
+
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
-    if (file.name.endsWith('.trc')) {
+    const name = file.name.toLowerCase();
+
+    if (name.endsWith('.trc')) {
       uploadedTRC = file;
-      document.getElementById('trc-filename').innerText = `✓ ${file.name}`;
-    } else if (file.name.endsWith('.mot')) {
+      const trcLabel = document.getElementById('trc-filename');
+      if (trcLabel) {
+        trcLabel.innerHTML = `<span class="text-emerald-700 font-bold"><i class="fas fa-check-circle mr-1"></i>${file.name}</span> <span class="text-slate-400">(${(file.size / 1024).toFixed(0)} KB)</span>`;
+      }
+    } else if (name.endsWith('.mot')) {
       uploadedMOT = file;
-      document.getElementById('mot-filename').innerText = `✓ ${file.name}`;
+      const motLabel = document.getElementById('mot-filename');
+      if (motLabel) {
+        motLabel.innerHTML = `<span class="text-emerald-700 font-bold"><i class="fas fa-check-circle mr-1"></i>${file.name}</span> <span class="text-slate-400">(${(file.size / 1024).toFixed(0)} KB)</span>`;
+      }
+    } else if (name.endsWith('.mp4') || name.endsWith('.mov')) {
+      uploadedVideo = file;
+      uploadedVideoBlobUrl = URL.createObjectURL(file);
+      const vidStatus = document.getElementById('upload-status');
+      if (vidStatus) {
+        vidStatus.innerHTML = `<span class="text-blue-600"><i class="fas fa-video mr-1"></i> Video attached: ${file.name}</span>`;
+      }
     }
   }
 
+  const processBtn = document.getElementById('btn-process-custom');
+  const statusElem = document.getElementById('upload-status');
+
   if (uploadedTRC && uploadedMOT) {
-    document.getElementById('btn-process-custom').classList.remove('opacity-50', 'cursor-not-allowed');
-    document.getElementById('btn-process-custom').disabled = false;
+    if (processBtn) {
+      processBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      processBtn.disabled = false;
+      processBtn.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-md');
+    }
+    if (statusElem) {
+      statusElem.innerHTML = '<span class="text-emerald-600 font-semibold"><i class="fas fa-check-double mr-1"></i> Ready! Both .trc and .mot files loaded. Click "Evaluate OpenLESS Score" to analyze.</span>';
+    }
+  } else if (uploadedTRC && !uploadedMOT) {
+    if (statusElem) statusElem.innerHTML = '<span class="text-amber-600 font-medium">✓ Loaded .trc file. Please now select or drag your matching .mot kinematics file.</span>';
+  } else if (!uploadedTRC && uploadedMOT) {
+    if (statusElem) statusElem.innerHTML = '<span class="text-amber-600 font-medium">✓ Loaded .mot file. Please now select or drag your matching .trc marker coordinate file.</span>';
   }
 }
 
-// Process Custom Data in Browser
-document.getElementById('btn-process-custom')?.addEventListener('click', async () => {
+async function processUploadedData() {
   if (!uploadedTRC || !uploadedMOT) return;
 
   const statusElem = document.getElementById('upload-status');
-  statusElem.innerText = 'Processing OpenCap .trc coordinates and .mot kinematics...';
+  const btn = document.getElementById('btn-process-custom');
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Analyzing Kinematics...';
+  }
+  if (statusElem) {
+    statusElem.innerHTML = '<span class="text-blue-600 font-medium"><i class="fas fa-cog fa-spin mr-1"></i> Filtering coordinates, detecting contact events, and calculating 19 LESS criteria...</span>';
+  }
 
   try {
     const trcText = await uploadedTRC.text();
     const motText = await uploadedMOT.text();
+    const trialName = uploadedTRC.name.replace(/\.trc$/i, '');
 
-    const parsed = runClientSideOpenLESS(trcText, motText);
+    const parsed = runClientSideOpenLESS(trcText, motText, trialName);
+    if (uploadedVideoBlobUrl) {
+      parsed.video_cam0 = uploadedVideoBlobUrl;
+    }
     customTrialData = parsed;
+
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = 'Evaluate OpenLESS Score';
+    }
 
     closeUploadModal();
     loadTrial('custom');
+    showNotification(`Success! Automated OpenLESS score for "${trialName}": ${parsed.scores.Total_Score}/19`);
   } catch (err) {
-    statusElem.innerText = `Error processing files: ${err.message}`;
-    console.error(err);
-  }
-});
-
-// Lightweight Client-Side OpenLESS Engine
-function runClientSideOpenLESS(trcText, motText) {
-  // Parse TRC
-  const trcLines = trcText.trim().split('\n');
-  const dataLines = trcLines.slice(6);
-  const time = [];
-  const lt = [];
-  const lh = [];
-  const rt = [];
-  const rh = [];
-
-  dataLines.forEach(l => {
-    const parts = l.trim().split(/\s+/).map(Number);
-    if (parts.length > 60) {
-      time.push(parts[1]);
-      lt.push(parts[45]);
-      lh.push(parts[51]);
-      rt.push(parts[54]);
-      rh.push(parts[60]);
+    if (statusElem) {
+      statusElem.innerHTML = `<span class="text-rose-600 font-semibold"><i class="fas fa-exclamation-triangle mr-1"></i> Error processing files: ${err.message}</span>`;
     }
-  });
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = 'Evaluate OpenLESS Score';
+    }
+    console.error('OpenLESS processing error:', err);
+  }
+}
 
-  // 4th order filter coefficients (b, a for 12Hz at 60Hz)
+function showNotification(message) {
+  const notif = document.getElementById('toast-notification');
+  if (!notif) return;
+  notif.innerHTML = `<i class="fas fa-check-circle text-emerald-400 mr-2"></i><span>${message}</span>`;
+  notif.classList.remove('hidden', 'translate-y-12', 'opacity-0');
+  setTimeout(() => {
+    notif.classList.add('translate-y-12', 'opacity-0');
+    setTimeout(() => notif.classList.add('hidden'), 500);
+  }, 4000);
+}
+
+// Robust Client-Side OpenLESS Signal Processing Engine
+function runClientSideOpenLESS(trcText, motText, trialName = 'Custom') {
+  // 1. Parse TRC
+  const trcLines = trcText.trim().split(/\r?\n/);
+  let headerRow = -1;
+  for (let i = 0; i < Math.min(10, trcLines.length); i++) {
+    if (trcLines[i].includes('Frame#') && trcLines[i].includes('Time')) {
+      headerRow = i;
+      break;
+    }
+  }
+  if (headerRow === -1) headerRow = 3;
+
+  const headerCols = trcLines[headerRow].split('\t');
+  function findMarkerY(candidates) {
+    for (let i = 0; i < headerCols.length; i++) {
+      const col = headerCols[i].trim().toLowerCase();
+      for (const cand of candidates) {
+        if (col === cand.toLowerCase()) return i + 1; // Y is next column after marker X
+      }
+    }
+    return -1;
+  }
+
+  let ltCol = findMarkerY(['lbigtoe', 'l_toe_study', 'l_toe', 'ltoe', 'l_big_toe', 'lsmalltoe']);
+  let lhCol = findMarkerY(['lheel', 'l_calc_study', 'l_calc', 'l_heel', 'l_calcaneus']);
+  let rtCol = findMarkerY(['rbigtoe', 'r_toe_study', 'r_toe', 'rtoe', 'r_big_toe', 'rsmalltoe']);
+  let rhCol = findMarkerY(['rheel', 'r_calc_study', 'r_calc', 'r_heel', 'r_calcaneus']);
+
+  // Defaults if markers not found by exact string
+  if (ltCol === -1) ltCol = 45;
+  if (lhCol === -1) lhCol = 51;
+  if (rtCol === -1) rtCol = 54;
+  if (rhCol === -1) rhCol = 60;
+
+  let dataStart = headerRow + 1;
+  while (dataStart < trcLines.length && !/^\s*\d+\s+[\d\.]+/.test(trcLines[dataStart])) {
+    dataStart++;
+  }
+
+  const time = [], lt = [], lh = [], rt = [], rh = [];
+  for (let i = dataStart; i < trcLines.length; i++) {
+    const line = trcLines[i].trim();
+    if (!line) continue;
+    const parts = line.split(/\s+/).map(Number);
+    if (parts.length > 2) {
+      time.push(parts[1]);
+      lt.push(parts[ltCol] !== undefined ? parts[ltCol] : 0);
+      lh.push(parts[lhCol] !== undefined ? parts[lhCol] : 0);
+      rt.push(parts[rtCol] !== undefined ? parts[rtCol] : 0);
+      rh.push(parts[rhCol] !== undefined ? parts[rhCol] : 0);
+    }
+  }
+
+  if (time.length === 0) {
+    throw new Error('No valid coordinate rows could be extracted from the .trc file.');
+  }
+
+  // 4th order zero-phase Butterworth filter (12 Hz at 60 Hz)
   const b = [0.04658, 0.18633, 0.27950, 0.18633, 0.04658];
   const a = [1.0, -0.78210, 0.67998, -0.18268, 0.03012];
 
-  function filterZeroPhase(arr) {
-    const fwd = applyIIR(arr, b, a);
-    const rev = applyIIR(fwd.reverse(), b, a);
+  function filtfilt(arr) {
+    if (!arr || arr.length === 0) return [];
+    const n = arr.length;
+    function filterFwd(x) {
+      const y = new Array(n).fill(0);
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < b.length; j++) {
+          if (i - j >= 0) y[i] += b[j] * x[i - j];
+        }
+        for (let j = 1; j < a.length; j++) {
+          if (i - j >= 0) y[i] -= a[j] * y[i - j];
+        }
+      }
+      return y;
+    }
+    const fwd = filterFwd(arr.slice());
+    const rev = filterFwd(fwd.reverse());
     return rev.reverse();
   }
 
-  function applyIIR(x, b, a) {
-    const y = new Array(x.length).fill(0);
-    for (let i = 0; i < x.length; i++) {
-      for (let j = 0; j < b.length; j++) {
-        if (i - j >= 0) y[i] += b[j] * x[i - j];
-      }
-      for (let j = 1; j < a.length; j++) {
-        if (i - j >= 0) y[i] -= a[j] * y[i - j];
-      }
-    }
-    return y;
-  }
+  const lt_f = filtfilt(lt);
+  const lh_f = filtfilt(lh);
+  const rt_f = filtfilt(rt);
+  const rh_f = filtfilt(rh);
 
-  const lt_f = filterZeroPhase(lt);
-  const lh_f = filterZeroPhase(lh);
-  const rt_f = filterZeroPhase(rt);
-  const rh_f = filterZeroPhase(rh);
+  // Ground contact event detection
+  function findContactMin(arr) {
+    const minVal = Math.min(...arr);
+    const dropThresh = arr[0] - 0.18;
+    const groundThresh = minVal + 0.08;
+    const th = Math.max(dropThresh, groundThresh);
 
-  function findFirstMin(arr) {
-    const th = arr[0] - 0.2;
     for (let i = 1; i < arr.length - 1; i++) {
-      if (arr[i] < arr[i - 1] && arr[i] < arr[i + 1] && arr[i] < th) return i;
+      if (arr[i] <= arr[i - 1] && arr[i] <= arr[i + 1] && arr[i] <= th) {
+        return i;
+      }
     }
-    return Math.floor(arr.length / 2);
+    const idxBelow = arr.findIndex(v => v <= th);
+    return idxBelow !== -1 ? idxBelow : Math.floor(arr.length / 2);
   }
 
-  const ic_lt = findFirstMin(lt_f);
-  const ic_lh = findFirstMin(lh_f);
-  const ic_rt = findFirstMin(rt_f);
-  const ic_rh = findFirstMin(rh_f);
+  const ic_lt = findContactMin(lt_f);
+  const ic_lh = findContactMin(lh_f);
+  const ic_rt = findContactMin(rt_f);
+  const ic_rh = findContactMin(rh_f);
 
   const ic_l = (time[ic_lt] < time[ic_lh]) ? ic_lt : ic_lh;
   const ic_r = (time[ic_rt] < time[ic_rh]) ? ic_rt : ic_rh;
 
-  // Parse MOT
-  const motLines = motText.trim().split('\n');
-  let headerIdx = 0;
+  // 2. Parse MOT
+  const motLines = motText.trim().split(/\r?\n/);
+  let motHeader = -1;
   for (let i = 0; i < motLines.length; i++) {
     if (motLines[i].startsWith('endheader')) {
-      headerIdx = i + 1;
+      motHeader = i + 1;
       break;
     }
   }
-  const colNames = motLines[headerIdx].trim().split(/\t|\s+/);
-  const motData = [];
-  for (let i = headerIdx + 1; i < motLines.length; i++) {
-    const vals = motLines[i].trim().split(/\t|\s+/).map(Number);
-    if (vals.length >= colNames.length) motData.push(vals);
+  while (motHeader < motLines.length && !motLines[motHeader].trim()) {
+    motHeader++;
+  }
+  if (motHeader >= motLines.length) {
+    throw new Error('Invalid .mot file format: "endheader" not found.');
   }
 
+  const colNames = motLines[motHeader].trim().split(/\s+/);
   const colIdx = {};
-  colNames.forEach((n, idx) => colIdx[n] = idx);
+  colNames.forEach((n, idx) => colIdx[n.toLowerCase()] = idx);
 
-  // Stance phase from IC to IC + 50 frames
-  const r_stance = motData.filter(r => r[0] >= time[ic_r] && r[0] <= time[ic_r] + 0.8);
-  const l_stance = motData.filter(r => r[0] >= time[ic_l] && r[0] <= time[ic_l] + 0.8);
+  function getCol(cand) {
+    for (const c of cand) {
+      if (colIdx[c.toLowerCase()] !== undefined) return colIdx[c.toLowerCase()];
+    }
+    return -1;
+  }
 
-  const r_knee = r_stance.map(r => r[colIdx['knee_angle_r']]);
-  const l_knee = l_stance.map(r => r[colIdx['knee_angle_l']]);
-  const r_hip = r_stance.map(r => r[colIdx['hip_flexion_r']]);
-  const l_hip = l_stance.map(r => r[colIdx['hip_flexion_l']]);
-  const r_trunk = r_stance.map(r => -r[colIdx['lumbar_extension']]);
-  const r_bending = r_stance.map(r => r[colIdx['lumbar_bending']]);
-  const r_hip_add = r_stance.map(r => r[colIdx['hip_adduction_r']]);
-  const l_hip_add = l_stance.map(r => r[colIdx['hip_adduction_l']]);
-  const r_hip_rot = r_stance.map(r => r[colIdx['hip_rotation_r']]);
-  const l_hip_rot = l_stance.map(r => r[colIdx['hip_rotation_l']]);
-  const r_subtalar = r_stance.map(r => r[colIdx['subtalar_angle_r']]);
-  const l_subtalar = l_stance.map(r => r[colIdx['subtalar_angle_l']]);
+  const idx_time = getCol(['time']);
+  const idx_knee_r = getCol(['knee_angle_r', 'knee_r']);
+  const idx_knee_l = getCol(['knee_angle_l', 'knee_l']);
+  const idx_hip_r = getCol(['hip_flexion_r', 'hip_r']);
+  const idx_hip_l = getCol(['hip_flexion_l', 'hip_l']);
+  const idx_trunk = getCol(['lumbar_extension', 'lumbar_ext']);
+  const idx_bend = getCol(['lumbar_bending']);
+  const idx_add_r = getCol(['hip_adduction_r', 'hip_add_r']);
+  const idx_add_l = getCol(['hip_adduction_l', 'hip_add_l']);
+  const idx_rot_r = getCol(['hip_rotation_r', 'hip_rot_r']);
+  const idx_rot_l = getCol(['hip_rotation_l', 'hip_rot_l']);
+  const idx_sub_r = getCol(['subtalar_angle_r', 'subtalar_r']);
+  const idx_sub_l = getCol(['subtalar_angle_l', 'subtalar_l']);
 
-  // Scores
+  const motData = [];
+  for (let i = motHeader + 1; i < motLines.length; i++) {
+    const line = motLines[i].trim();
+    if (!line) continue;
+    const parts = line.split(/\s+/).map(Number);
+    if (parts.length >= colNames.length) {
+      motData.push(parts);
+    }
+  }
+
+  if (motData.length === 0) {
+    throw new Error('No numeric kinematic data rows could be extracted from the .mot file.');
+  }
+
+  // Filter joint kinematics with zero-phase Butterworth filter
+  const filteredMotCols = {};
+  [idx_knee_r, idx_knee_l, idx_hip_r, idx_hip_l, idx_trunk, idx_bend, idx_add_r, idx_add_l, idx_rot_r, idx_rot_l, idx_sub_r, idx_sub_l].forEach(ci => {
+    if (ci !== -1) {
+      const raw = motData.map(r => r[ci]);
+      filteredMotCols[ci] = filtfilt(raw);
+    }
+  });
+
+  // Extract stance phase
+  function getStanceData(icTime, isRight) {
+    let startIdx = motData.findIndex(r => r[idx_time] >= icTime);
+    if (startIdx === -1) {
+      let closest = 0, minD = Infinity;
+      for (let i = 0; i < motData.length; i++) {
+        const d = Math.abs(motData[i][idx_time] - icTime);
+        if (d < minD) { minD = d; closest = i; }
+      }
+      startIdx = closest;
+    }
+    const endIdx = Math.min(motData.length - 1, startIdx + 50);
+
+    const time_slice = [];
+    const knee = [];
+    const hip = [];
+    const trunk = [];
+    const bend = [];
+    const hip_add = [];
+    const hip_rot = [];
+    const sub = [];
+
+    const k_col = isRight ? idx_knee_r : idx_knee_l;
+    const h_col = isRight ? idx_hip_r : idx_hip_l;
+    const a_col = isRight ? idx_add_r : idx_add_l;
+    const r_col = isRight ? idx_rot_r : idx_rot_l;
+    const s_col = isRight ? idx_sub_r : idx_sub_l;
+
+    for (let i = startIdx; i <= endIdx; i++) {
+      time_slice.push(motData[i][idx_time]);
+      knee.push(filteredMotCols[k_col] ? filteredMotCols[k_col][i] : 0);
+      hip.push(filteredMotCols[h_col] ? filteredMotCols[h_col][i] : 0);
+      trunk.push(filteredMotCols[idx_trunk] ? -filteredMotCols[idx_trunk][i] : 0); // Positive trunk flexion
+      bend.push(filteredMotCols[idx_bend] ? filteredMotCols[idx_bend][i] : 0);
+      hip_add.push(filteredMotCols[a_col] ? filteredMotCols[a_col][i] : 0);
+      hip_rot.push(filteredMotCols[r_col] ? filteredMotCols[r_col][i] : 0);
+      sub.push(filteredMotCols[s_col] ? filteredMotCols[s_col][i] : 0);
+    }
+
+    return { time_slice, knee, hip, trunk, bend, hip_add, hip_rot, sub };
+  }
+
+  const r_data = getStanceData(time[ic_r], true);
+  const l_data = getStanceData(time[ic_l], false);
+
+  // LESS Criteria Evaluation (Turner et al. 2024)
   const scores = {};
-  scores['1_Knee_Flexion_IC_L_deg'] = l_knee[0];
-  scores['1_Knee_Flexion_IC_R_deg'] = r_knee[0];
-  scores['1_Knee_Flexion_IC_T'] = (l_knee[0] < 30 || r_knee[0] < 30) ? 1 : 0;
 
-  scores['2_Hip_Flexion_IC_L_deg'] = l_hip[0];
-  scores['2_Hip_Flexion_IC_R_deg'] = r_hip[0];
-  scores['2_Hip_Flexion_IC_T'] = (l_hip[0] < 30 || r_hip[0] < 30) ? 1 : 0;
+  // 1. Knee Flexion IC
+  scores['1_Knee_Flexion_IC_L_deg'] = Number(l_data.knee[0].toFixed(1));
+  scores['1_Knee_Flexion_IC_R_deg'] = Number(r_data.knee[0].toFixed(1));
+  scores['1_Knee_Flexion_IC_T'] = (l_data.knee[0] < 30 || r_data.knee[0] < 30) ? 1 : 0;
 
-  scores['3_Trunk_Flexion_IC_deg'] = -r_trunk[0];
-  scores['3_Trunk_Flexion_IC_T'] = (-r_trunk[0] > -10) ? 1 : 0;
+  // 2. Hip Flexion IC
+  scores['2_Hip_Flexion_IC_L_deg'] = Number(l_data.hip[0].toFixed(1));
+  scores['2_Hip_Flexion_IC_R_deg'] = Number(r_data.hip[0].toFixed(1));
+  scores['2_Hip_Flexion_IC_T'] = (l_data.hip[0] < 30 || r_data.hip[0] < 30) ? 1 : 0;
 
-  const pf_l = time[ic_lt] >= time[ic_lh] ? 1 : 0;
-  const pf_r = time[ic_rt] >= time[ic_rh] ? 1 : 0;
+  // 3. Trunk Flexion IC (forward lean is positive in r_data.trunk, error if < 10°)
+  scores['3_Trunk_Flexion_IC_deg'] = Number(r_data.trunk[0].toFixed(1));
+  scores['3_Trunk_Flexion_IC_T'] = (r_data.trunk[0] < 10) ? 1 : 0;
+
+  // 4. Ankle Plantarflexion IC
+  const pf_l = (time[ic_lh] <= time[ic_lt]) ? 1 : 0;
+  const pf_r = (time[ic_rh] <= time[ic_rt]) ? 1 : 0;
   scores['4_Ankle_Plantar_Flexion_IC_T'] = (pf_l || pf_r) ? 1 : 0;
-  scores['5_Asymmetrical_Timing'] = Math.abs(time[ic_r] - time[ic_l]) > 0.034 ? 1 : 0;
-  scores['6_Asymmetrical_HeelToe_ToeHeel'] = (pf_l !== pf_r) ? 1 : 0;
-  scores['7_Lateral_Trunk_Flexion_IC_deg'] = r_bending[0];
-  scores['7_Lateral_Trunk_Flexion_IC_T'] = Math.abs(r_bending[0]) > 5 ? 1 : 0;
 
+  // 5. Asymmetrical Timing (> 34 ms difference)
+  scores['5_Asymmetrical_Timing'] = Math.abs(time[ic_r] - time[ic_l]) > 0.034 ? 1 : 0;
+
+  // 6. Asymmetrical Foot Landing Strategy
+  scores['6_Asymmetrical_HeelToe_ToeHeel'] = (pf_l !== pf_r) ? 1 : 0;
+
+  // 7. Lateral Trunk Flexion IC (> 5°)
+  scores['7_Lateral_Trunk_Flexion_IC_deg'] = Number(r_data.bend[0].toFixed(1));
+  scores['7_Lateral_Trunk_Flexion_IC_T'] = Math.abs(r_data.bend[0]) > 5 ? 1 : 0;
+
+  // 8. Medial Knee IC
   function isValgus(rot, add) {
     return ((rot > 8 && add > -1) || add > 1) ? 1 : 0;
   }
-  scores['8_Medial_Knee_IC_L_deg'] = l_hip_rot[0];
-  scores['8_Medial_Knee_IC_T'] = (isValgus(r_hip_rot[0], r_hip_add[0]) || isValgus(l_hip_rot[0], l_hip_add[0])) ? 1 : 0;
+  scores['8_Medial_Knee_IC_L_deg'] = Number(l_data.hip_rot[0].toFixed(1));
+  scores['8_Medial_Knee_IC_R_deg'] = Number(r_data.hip_rot[0].toFixed(1));
+  scores['8_Medial_Knee_IC_T'] = (isValgus(r_data.hip_rot[0], r_data.hip_add[0]) || isValgus(l_data.hip_rot[0], l_data.hip_add[0])) ? 1 : 0;
 
-  scores['9_Stance_Hip_abd_IC_L_deg'] = l_hip_add[0];
-  scores['9_Stance_Hip_abd_IC_R_deg'] = r_hip_add[0];
-  scores['9_Stance_Wide_IC_T'] = (r_hip_add[0] < -12 || l_hip_add[0] < -12) ? 1 : 0;
-  scores['10_Stance_Narrow_IC_T'] = (r_hip_add[0] > 0 || l_hip_add[0] > 0) ? 1 : 0;
+  // 9 & 10. Stance Width
+  scores['9_Stance_Hip_abd_IC_L_deg'] = Number(l_data.hip_add[0].toFixed(1));
+  scores['9_Stance_Hip_abd_IC_R_deg'] = Number(r_data.hip_add[0].toFixed(1));
+  scores['9_Stance_Wide_IC_T'] = (r_data.hip_add[0] < -12 || l_data.hip_add[0] < -12) ? 1 : 0;
+  scores['10_Stance_Narrow_IC_T'] = (r_data.hip_add[0] > 0 || l_data.hip_add[0] > 0) ? 1 : 0;
 
-  scores['11_IR_Foot_IC_L_deg'] = l_subtalar[0];
-  scores['11_IR_Foot_IC_R_deg'] = r_subtalar[0];
-  scores['11_IR_Foot_IC_T'] = (r_subtalar[0] > 10 || l_subtalar[0] > 10) ? 1 : 0;
-  scores['12_ER_Foot_IC_T'] = (r_subtalar[0] < -15 || l_subtalar[0] < -15) ? 1 : 0;
+  // 11 & 12. Foot Rotation
+  scores['11_IR_Foot_IC_L_deg'] = Number(l_data.sub[0].toFixed(1));
+  scores['11_IR_Foot_IC_R_deg'] = Number(r_data.sub[0].toFixed(1));
+  scores['11_IR_Foot_IC_T'] = (r_data.sub[0] > 10 || l_data.sub[0] > 10) ? 1 : 0;
+  scores['12_ER_Foot_IC_T'] = (r_data.sub[0] < -15 || l_data.sub[0] < -15) ? 1 : 0;
 
-  const max_knee_r = Math.max(...r_knee);
-  const max_knee_l = Math.max(...l_knee);
-  scores['13_Knee_Flexion_Displacement_R_deg'] = max_knee_r;
-  scores['13_Knee_Flexion_Displacement_L_deg'] = max_knee_l;
+  // 13. Knee Flexion Displacement (< 65°)
+  const max_knee_r = Math.max(...r_data.knee);
+  const max_knee_l = Math.max(...l_data.knee);
+  scores['13_Knee_Flexion_Displacement_R_deg'] = Number(max_knee_r.toFixed(1));
+  scores['13_Knee_Flexion_Displacement_L_deg'] = Number(max_knee_l.toFixed(1));
   scores['13_Knee_Flexion_Displacement_T'] = (max_knee_r < 65 || max_knee_l < 65) ? 1 : 0;
 
-  const max_hip_r = Math.max(...r_hip);
-  const max_hip_l = Math.max(...l_hip);
-  scores['14_Hip_Flexion_Displacement_R_deg'] = max_hip_r;
-  scores['14_Hip_Flexion_Displacement_L_deg'] = max_hip_l;
+  // 14. Hip Flexion Displacement (< 45°)
+  const max_hip_r = Math.max(...r_data.hip);
+  const max_hip_l = Math.max(...l_data.hip);
+  scores['14_Hip_Flexion_Displacement_R_deg'] = Number(max_hip_r.toFixed(1));
+  scores['14_Hip_Flexion_Displacement_L_deg'] = Number(max_hip_l.toFixed(1));
   scores['14_Hip_Flexion_Displacement_T'] = (max_hip_r < 45 || max_hip_l < 45) ? 1 : 0;
 
-  const max_trunk = Math.max(...r_trunk);
-  scores['15_Trunk_Flexion_Max_deg'] = -max_trunk;
-  scores['15_Trunk_Flexion_Max_T'] = Math.abs(max_trunk - r_trunk[0]) < 10 ? 1 : 0;
+  // 15. Trunk Flexion Displacement (< 10°)
+  const max_trunk = Math.max(...r_data.trunk);
+  scores['15_Trunk_Flexion_Max_deg'] = Number(max_trunk.toFixed(1));
+  scores['15_Trunk_Flexion_Max_T'] = Math.abs(max_trunk - r_data.trunk[0]) < 10 ? 1 : 0;
 
-  scores['16_Medial_Knee_Max_T'] = (isValgus(Math.max(...r_hip_rot), Math.max(...r_hip_add)) || isValgus(Math.max(...l_hip_rot), Math.max(...l_hip_add))) ? 1 : 0;
+  // 16. Medial Knee Position at Max Displacement
+  const max_rot_r = Math.max(...r_data.hip_rot), max_add_r = Math.max(...r_data.hip_add);
+  const max_rot_l = Math.max(...l_data.hip_rot), max_add_l = Math.max(...l_data.hip_add);
+  scores['16_Medial_Knee_Max_T'] = (isValgus(max_rot_r, max_add_r) || isValgus(max_rot_l, max_add_l)) ? 1 : 0;
 
-  scores['17_Asymmetrical_Load_R_deg'] = Math.max(...r_hip_add);
-  scores['17_Asymmetrical_Load_L_deg'] = Math.max(...l_hip_add);
-  scores['17_Asymmetrical_Load_T'] = Math.abs(Math.max(...r_hip_add) - Math.max(...l_hip_add)) > 5 ? 1 : 0;
+  // 17. Asymmetrical Limb Loading (> 5° difference in max hip adduction)
+  scores['17_Asymmetrical_Load_R_deg'] = Number(max_add_r.toFixed(1));
+  scores['17_Asymmetrical_Load_L_deg'] = Number(max_add_l.toFixed(1));
+  scores['17_Asymmetrical_Load_T'] = Math.abs(max_add_r - max_add_l) > 5 ? 1 : 0;
 
-  scores['18_Joint_Displacement_T'] = (scores['13_Knee_Flexion_Displacement_T'] === 0 && scores['14_Hip_Flexion_Displacement_T'] === 0 && scores['15_Trunk_Flexion_Max_T'] === 0) ? 0 : 2;
-  scores['19_Overall_Impression_T'] = (scores['18_Joint_Displacement_T'] === 0 && scores['16_Medial_Knee_Max_T'] === 0) ? 0 : 2;
+  // 18. Joint Displacement Composite (0 = Soft, 1 = Average, 2 = Stiff)
+  const sagErrors = scores['13_Knee_Flexion_Displacement_T'] + scores['14_Hip_Flexion_Displacement_T'] + scores['15_Trunk_Flexion_Max_T'];
+  if (sagErrors === 0 && max_knee_r >= 55 && max_knee_l >= 55 && max_hip_r >= 73 && max_hip_l >= 73) {
+    scores['18_Joint_Displacement_T'] = 0;
+  } else if (sagErrors === 0) {
+    scores['18_Joint_Displacement_T'] = 1;
+  } else {
+    scores['18_Joint_Displacement_T'] = 2;
+  }
 
+  // 19. Overall Impression Composite (0 = Excellent, 1 = Average, 2 = Poor)
+  const valgusErrors = scores['8_Medial_Knee_IC_T'] + scores['16_Medial_Knee_Max_T'];
+  if (sagErrors === 0 && valgusErrors === 0) {
+    scores['19_Overall_Impression_T'] = 0;
+  } else if (sagErrors > 0 && valgusErrors > 0) {
+    scores['19_Overall_Impression_T'] = 2;
+  } else {
+    scores['19_Overall_Impression_T'] = 1;
+  }
+
+  // Total Score (Sum of 19 items)
+  const itemKeys = [
+    '1_Knee_Flexion_IC_T', '2_Hip_Flexion_IC_T', '3_Trunk_Flexion_IC_T', '4_Ankle_Plantar_Flexion_IC_T',
+    '5_Asymmetrical_Timing', '6_Asymmetrical_HeelToe_ToeHeel', '7_Lateral_Trunk_Flexion_IC_T',
+    '8_Medial_Knee_IC_T', '9_Stance_Wide_IC_T', '10_Stance_Narrow_IC_T', '11_IR_Foot_IC_T', '12_ER_Foot_IC_T',
+    '13_Knee_Flexion_Displacement_T', '14_Hip_Flexion_Displacement_T', '15_Trunk_Flexion_Max_T',
+    '16_Medial_Knee_Max_T', '17_Asymmetrical_Load_T', '18_Joint_Displacement_T', '19_Overall_Impression_T'
+  ];
   let total = 0;
-  LESS_CRITERIA_INFO.forEach(c => total += (scores[c.key] || 0));
+  itemKeys.forEach(k => total += (scores[k] || 0));
   scores['Total_Score'] = total;
 
   return {
+    name: trialName,
+    trcName: uploadedTRC ? uploadedTRC.name : `${trialName}.trc`,
+    motName: uploadedMOT ? uploadedMOT.name : `${trialName}.mot`,
     scores,
     kinematics: {
-      r_time: r_stance.map(r => r[0]),
-      l_time: l_stance.map(r => r[0]),
-      r_time_rel: r_stance.map(r => r[0] - r_stance[0][0]),
-      l_time_rel: l_stance.map(r => r[0] - l_stance[0][0]),
-      knee_r: r_knee,
-      knee_l: l_knee,
-      hip_r: r_hip,
-      hip_l: l_hip,
-      trunk_r: r_trunk,
-      trunk_bending: r_bending,
-      hip_add_r: r_hip_add,
-      hip_add_l: l_hip_add,
-      hip_rot_r: r_hip_rot,
-      hip_rot_l: l_hip_rot,
-      subtalar_r: r_subtalar,
-      subtalar_l: l_subtalar
+      r_time: r_data.time_slice,
+      l_time: l_data.time_slice,
+      r_time_rel: r_data.time_slice.map(t => Number((t - r_data.time_slice[0]).toFixed(3))),
+      l_time_rel: l_data.time_slice.map(t => Number((t - l_data.time_slice[0]).toFixed(3))),
+      knee_r: r_data.knee,
+      knee_l: l_data.knee,
+      hip_r: r_data.hip,
+      hip_l: l_data.hip,
+      trunk_r: r_data.trunk,
+      trunk_bending: r_data.bend,
+      hip_add_r: r_data.hip_add,
+      hip_add_l: l_data.hip_add,
+      hip_rot_r: r_data.hip_rot,
+      hip_rot_l: l_data.hip_rot,
+      subtalar_r: r_data.sub,
+      subtalar_l: l_data.sub
     },
     coordinates: {
       time, lt_f, lh_f, rt_f, rh_f
     },
+    events: {
+      ic_l_time: time[ic_l],
+      ic_r_time: time[ic_r],
+      to_l_time: time[Math.min(time.length - 1, ic_l + 50)],
+      to_r_time: time[Math.min(time.length - 1, ic_r + 50)]
+    },
     video_cam0: null,
     video_cam1: null
   };
+}
+
+async function loadSampleFiles(trialName) {
+  const statusElem = document.getElementById('upload-status');
+  if (statusElem) statusElem.innerHTML = '<span class="text-blue-600 font-medium"><i class="fas fa-spinner fa-spin mr-1"></i> Loading and processing sample files...</span>';
+  try {
+    const trcRes = await fetch(`data/${trialName}.trc`);
+    const motRes = await fetch(`data/${trialName}.mot`);
+    if (!trcRes.ok || !motRes.ok) throw new Error('Could not fetch sample files.');
+    const trcText = await trcRes.text();
+    const motText = await motRes.text();
+    const parsed = runClientSideOpenLESS(trcText, motText, `Sample_${trialName}`);
+    parsed.video_cam0 = `videos/${trialName}_sync.mp4`;
+    parsed.video_cam1 = `videos/${trialName}_cam1_sync.mp4`;
+    customTrialData = parsed;
+    closeUploadModal();
+    loadTrial('custom');
+    showNotification(`Success! Analyzed sample dataset "${trialName}" (Score: ${parsed.scores.Total_Score}/19)`);
+  } catch (e) {
+    if (statusElem) statusElem.innerHTML = `<span class="text-rose-600 font-semibold">Error loading sample: ${e.message}</span>`;
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.loadSampleFiles = loadSampleFiles;
+  window.runClientSideOpenLESS = runClientSideOpenLESS;
+  window.showNotification = showNotification;
+  window.closeUploadModal = closeUploadModal;
+  window.loadTrial = loadTrial;
 }
