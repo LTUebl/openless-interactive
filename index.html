@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenLESS: Jump-Landing Biomechanics & ACL Injury Risk Evaluation</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Plotly.js CDN -->
+  <script src="https://cdn.plot.ly/plotly-2.29.1.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      height: 14px;
+      width: 14px;
+      border-radius: 50%;
+      background: #2563EB;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Top Header Navigation -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black text-xl shadow-md">
+          <i class="fas fa-running"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-bold tracking-tight text-slate-900">OpenLESS Interactive</h1>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-100 text-blue-800 border border-blue-200">v1.0 · OpenCap</span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">
+            Lawrence Technological University · Dept. of Biomedical Engineering · Experimental Biomechanics Lab
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Links -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <a href="https://doi.org/10.1101/2024.11.28.24318160" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-md transition">
+          <i class="fas fa-book-open text-blue-600"></i>
+          <span>Turner et al. (2024)</span>
+        </a>
+        <a href="OpenLESS_Report_OpenCapData_71.pdf" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-md transition">
+          <i class="fas fa-file-pdf text-rose-600"></i>
+          <span>PDF Report</span>
+        </a>
+        <a href="https://github.com/LTUebl/openless-interactive" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-md transition shadow-sm">
+          <i class="fab fa-github"></i>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
+
+    <!-- Trial Selector Bar -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Select Dataset / Trial Mode:</span>
+          <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+            <button id="btn-leaning" class="px-4 py-2 text-sm font-semibold rounded-lg border-2 border-emerald-600 ring-4 ring-emerald-100 bg-white text-emerald-900 hover:bg-emerald-50 transition flex items-center gap-2 shadow-sm">
+              <i class="fas fa-check-circle text-emerald-600"></i>
+              <span>Trial 1: Stepoff-Leaning (Soft)</span>
+            </button>
+            <button id="btn-upright" class="px-4 py-2 text-sm font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-rose-50 hover:text-rose-700 transition flex items-center gap-2">
+              <i class="fas fa-exclamation-triangle text-rose-500"></i>
+              <span>Trial 2: Stepoff-Upright (Stiff)</span>
+            </button>
+            <button id="btn-compare" class="px-4 py-2 text-sm font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center gap-2">
+              <i class="fas fa-columns text-indigo-500"></i>
+              <span>Compare Trials</span>
+            </button>
+            <button id="btn-custom" class="px-4 py-2 text-sm font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-amber-50 hover:text-amber-700 transition flex items-center gap-2">
+              <i class="fas fa-upload text-amber-500"></i>
+              <span>Upload OpenCap (.trc/.mot)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+          <button id="btn-download-csv" class="px-3 py-1.5 text-xs font-semibold rounded-md border border-slate-300 text-slate-700 hover:bg-slate-100 transition flex items-center gap-1.5" title="Download Scoring CSV">
+            <i class="fas fa-download"></i>
+            <span>CSV</span>
+          </button>
+          <button id="btn-print-report" class="px-3 py-1.5 text-xs font-semibold rounded-md border border-slate-300 text-slate-700 hover:bg-slate-100 transition flex items-center gap-1.5" title="Print Report">
+            <i class="fas fa-print"></i>
+            <span>Print</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SINGLE TRIAL VIEW CONTAINER -->
+    <div id="single-trial-container" class="space-y-6">
+
+      <!-- Trial Summary Header Card -->
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span id="trial-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                <i class="fas fa-check-circle mr-1"></i> EXCELLENT JUMP-LANDING
+              </span>
+              <span id="risk-category-badge" class="px-3 py-1 text-xs font-bold rounded-md bg-emerald-500 text-white">
+                LOW ACL INJURY RISK
+              </span>
+            </div>
+            <h2 id="trial-title" class="text-xl font-bold text-slate-900">Trial 1: Stepoff-Leaning (Soft Energy Dissipation)</h2>
+            <p id="trial-description" class="text-sm text-slate-600 max-w-4xl">
+              The subject demonstrates proactive forward trunk lean (45.2°), deep bilateral knee flexion (81.4°), and symmetric toe-first ground contact, absorbing impact energy across the posterior kinetic chain.
+            </p>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 flex items-center gap-6 self-stretch sm:self-auto justify-between sm:justify-end">
+            <div>
+              <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400">Total LESS Score</div>
+              <div id="total-score-val" class="text-4xl font-black text-emerald-600">1 / 19</div>
+              <div class="text-[11px] text-slate-500">Lower is better (&le;4 = Excellent)</div>
+            </div>
+            <div class="w-32">
+              <div class="text-[11px] font-semibold text-slate-500 mb-1 flex justify-between">
+                <span>Error Gauge</span>
+                <span>19 max</span>
+              </div>
+              <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden">
+                <div id="score-gauge-bar" class="h-3 rounded-full bg-emerald-500 transition-all duration-500" style="width: 5%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grid: Left (Video & Kinematics) & Right (19 Criteria Scorecard) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- Left Column: Video & Plotly Kinematic Charts (7 cols) -->
+        <div class="lg:col-span-7 space-y-6">
+
+          <!-- Synchronized Video Player Card -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+              <div class="flex items-center gap-2">
+                <i class="fas fa-video text-blue-600"></i>
+                <h3 class="text-sm font-bold text-slate-900">Synchronized Landing Video</h3>
+              </div>
+              <div class="flex items-center gap-1 bg-slate-200/70 p-1 rounded-md">
+                <button id="btn-cam0" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 text-white transition">Cam 0 (Sagittal)</button>
+                <button id="btn-cam1" class="px-3 py-1 text-xs font-bold rounded bg-transparent text-slate-700 hover:bg-slate-300 transition">Cam 1 (Angled)</button>
+              </div>
+            </div>
+
+            <!-- Video Frame Container -->
+            <div class="relative bg-black aspect-video flex items-center justify-center">
+              <video id="landing-video" class="w-full h-full object-contain" playsinline muted preload="auto">
+                <source src="videos/Stepoff-Leaning_sync.mp4" type="video/mp4">
+                Your browser does not support HTML5 video.
+              </video>
+            </div>
+
+            <!-- Video Controls Bar -->
+            <div class="p-3 bg-slate-900 text-white space-y-2">
+              <!-- Scrubber Bar -->
+              <div class="flex items-center gap-3">
+                <span id="video-current-time" class="text-xs font-mono text-slate-300 w-12">0:00.00</span>
+                <input id="video-scrubber" type="range" min="0" max="3" step="0.0166" value="0" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+                <span id="video-duration" class="text-xs font-mono text-slate-300 w-12 text-right">0:00.00</span>
+              </div>
+
+              <!-- Playback Buttons & Speed -->
+              <div class="flex items-center justify-between text-xs pt-1">
+                <div class="flex items-center gap-2">
+                  <button id="video-play-btn" class="px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-500 font-semibold transition flex items-center gap-1">
+                    <i class="fas fa-play mr-1"></i> Play
+                  </button>
+                  <button id="step-back-btn" class="px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Step backward 1 frame (1/60s)">
+                    <i class="fas fa-step-backward"></i>
+                  </button>
+                  <button id="step-fwd-btn" class="px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Step forward 1 frame (1/60s)">
+                    <i class="fas fa-step-forward"></i>
+                  </button>
+                  <span class="text-[11px] text-slate-400 pl-1">(60 Hz OpenCap capture)</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <label for="video-speed" class="text-slate-400">Speed:</label>
+                  <select id="video-speed" class="bg-slate-800 text-white text-xs rounded px-2 py-1 border border-slate-700">
+                    <option value="0.25">0.25x (Super Slow)</option>
+                    <option value="0.5" selected>0.5x (Slow-Mo)</option>
+                    <option value="1.0">1.0x (Real-time)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Kinematic Charts Card -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <i class="fas fa-chart-line text-blue-600"></i>
+                  <span>Joint Kinematic Trajectories</span>
+                </h3>
+                <p class="text-xs text-slate-500">Continuous inverse kinematics synchronized to ground contact events</p>
+              </div>
+
+              <!-- Chart Tabs -->
+              <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg">
+                <button class="chart-tab-btn px-3 py-1 text-xs font-semibold rounded-md bg-blue-600 text-white transition" data-tab="sagittal">Sagittal</button>
+                <button class="chart-tab-btn px-3 py-1 text-xs font-semibold rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 transition" data-tab="frontal">Frontal/Transverse</button>
+                <button class="chart-tab-btn px-3 py-1 text-xs font-semibold rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 transition" data-tab="events">Contact Events (Y)</button>
+              </div>
+            </div>
+
+            <!-- Plotly Container -->
+            <div id="plotly-chart-container" class="w-full h-80 mt-2"></div>
+            
+            <div class="mt-2 text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded border border-slate-200/80">
+              <span class="font-bold text-slate-700"><i class="fas fa-info-circle text-blue-500 mr-1"></i> Biomechanics Note:</span>
+              Horizontal dashed lines indicate clinical cutoff thresholds defined by the Jump-Landing Error Scoring System (Padua et al., 2009; Turner et al., 2024). Click legend items to isolate specific joint curves.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: 19 Criteria Scorecard (5 cols) -->
+        <div class="lg:col-span-5 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+          <div class="p-4 border-b border-slate-200 bg-slate-50">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <i class="fas fa-clipboard-check text-blue-600"></i>
+                <span>OpenLESS 19-Criteria Scorecard</span>
+              </h3>
+              <span class="text-xs text-slate-500">Turner et al. (2024)</span>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex items-center gap-1 border-b border-slate-200 overflow-x-auto text-xs pb-1">
+              <button class="score-filter-btn px-2.5 py-1 font-semibold border-b-2 border-blue-600 text-blue-600 whitespace-nowrap" data-filter="all">All (19)</button>
+              <button class="score-filter-btn px-2.5 py-1 font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap" data-filter="ic">Initial Contact</button>
+              <button class="score-filter-btn px-2.5 py-1 font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap" data-filter="max">Max Displacement</button>
+              <button class="score-filter-btn px-2.5 py-1 font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap" data-filter="overall">Overall</button>
+              <button class="score-filter-btn px-2.5 py-1 font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap" data-filter="errors">Errors Only</button>
+            </div>
+          </div>
+
+          <!-- Scorecard Rows Container -->
+          <div id="scorecard-rows" class="divide-y divide-slate-100 max-h-[720px] overflow-y-auto">
+            <!-- Populated dynamically via app.js -->
+          </div>
+
+          <!-- Bottom Legend -->
+          <div class="p-3 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-500 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Pass (0)</span>
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block"></span> Error (+1 / +2)</span>
+            </div>
+            <span>Click down arrows for clinical rationale</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- COMPARISON VIEW CONTAINER (Hidden by default) -->
+    <div id="comparison-container" class="hidden space-y-6">
+      
+      <!-- Comparison Header -->
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">
+              <i class="fas fa-balance-scale mr-1"></i> BIOMECHANICAL COMPARISON
+            </span>
+            <h2 class="text-xl font-bold text-slate-900 mt-2">Stepoff-Leaning vs. Stepoff-Upright Landing Dynamics</h2>
+            <p class="text-sm text-slate-600 mt-1 max-w-4xl">
+              Direct comparison of kinematics, multi-joint kinetic shock absorption, and itemized error point distributions between a compliant, soft landing and an upright, stiff valgus landing.
+            </p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-center p-3 bg-emerald-50 rounded-lg border border-emerald-200 min-w-28">
+              <div class="text-xs font-bold text-emerald-800">Leaning Score</div>
+              <div class="text-2xl font-black text-emerald-600">1 / 19</div>
+              <div class="text-[10px] text-emerald-700">Low ACL Risk</div>
+            </div>
+            <div class="text-center p-3 bg-rose-50 rounded-lg border border-rose-200 min-w-28">
+              <div class="text-xs font-bold text-rose-800">Upright Score</div>
+              <div class="text-2xl font-black text-rose-600">14 / 19</div>
+              <div class="text-[10px] text-rose-700">High ACL Risk</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Side-by-Side Key Metrics Table -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-4 py-3 bg-slate-50 border-b border-slate-200">
+          <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <i class="fas fa-table text-indigo-600"></i>
+            <span>Key Biomechanical Comparison Metrics</span>
+          </h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-100/75 border-b border-slate-200 text-slate-700">
+                <th class="p-3 font-bold">Biomechanical Metric</th>
+                <th class="p-3 font-bold">LESS Cutoff / Ideal</th>
+                <th class="p-3 font-bold text-emerald-700">Trial 1: Stepoff-Leaning</th>
+                <th class="p-3 font-bold text-rose-700">Trial 2: Stepoff-Upright</th>
+                <th class="p-3 font-bold text-slate-800">Biomechanical Significance</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="p-3 font-semibold text-slate-900">Knee Flexion at Initial Contact</td>
+                <td class="p-3 text-slate-600">&ge; 30°</td>
+                <td class="p-3 font-bold text-emerald-600">35.9° (L) / 37.3° (R) <span class="text-[10px] text-emerald-700">[Pass]</span></td>
+                <td class="p-3 font-bold text-rose-600">18.5° (L) / 13.9° (R) <span class="text-[10px] text-rose-700">[Error]</span></td>
+                <td class="p-3 text-slate-600">Stiff knees at contact dramatically increase ACL anterior shear forces from the quadriceps tendon.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-900">Knee Flexion Displacement (Cushioning)</td>
+                <td class="p-3 text-slate-600">&ge; 45°</td>
+                <td class="p-3 font-bold text-emerald-600">45.5° (L) / 44.1° (R) <span class="text-[10px] text-emerald-700">[Pass]</span></td>
+                <td class="p-3 font-bold text-rose-600">23.6° (L) / 19.4° (R) <span class="text-[10px] text-rose-700">[Error]</span></td>
+                <td class="p-3 text-slate-600">Inadequate knee flexion displacement results in high peak vertical ground reaction forces.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-900">Trunk Flexion at Initial Contact</td>
+                <td class="p-3 text-slate-600">&ge; 10° forward lean</td>
+                <td class="p-3 font-bold text-emerald-600">45.2° forward lean <span class="text-[10px] text-emerald-700">[Pass]</span></td>
+                <td class="p-3 font-bold text-rose-600">-6.3° upright/ext <span class="text-[10px] text-rose-700">[Error]</span></td>
+                <td class="p-3 text-slate-600">Forward trunk lean brings ground reaction vector anterior to knee, recruiting gluteals and hamstrings.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-900">Foot Contact Pattern</td>
+                <td class="p-3 text-slate-600">Forefoot strike first</td>
+                <td class="p-3 font-bold text-emerald-600">Forefoot first (both feet) <span class="text-[10px] text-emerald-700">[Pass]</span></td>
+                <td class="p-3 font-bold text-rose-600">Heel strike first (left foot) <span class="text-[10px] text-rose-700">[Error]</span></td>
+                <td class="p-3 text-slate-600">Heel strikes bypass the triceps surae plantarflexor compliance, transmitting shocks directly to skeleton.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-900">Dynamic Knee Valgus Collapse</td>
+                <td class="p-3 text-slate-600">No inward collapse</td>
+                <td class="p-3 font-bold text-emerald-600">No Valgus (0 errors) <span class="text-[10px] text-emerald-700">[Pass]</span></td>
+                <td class="p-3 font-bold text-rose-600">Severe Valgus (+3 points) <span class="text-[10px] text-rose-700">[Error]</span></td>
+                <td class="p-3 text-slate-600">Frontal plane knee collapse combines internal rotation and valgus moment, primary cause of ACL tear.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-900">Lateral Hip Shift / Symmetry</td>
+                <td class="p-3 text-slate-600">&le; 5° difference</td>
+                <td class="p-3 font-bold text-emerald-600">0.4° difference <span class="text-[10px] text-emerald-700">[Pass]</span></td>
+                <td class="p-3 font-bold text-rose-600">10.8° difference <span class="text-[10px] text-rose-700">[Error]</span></td>
+                <td class="p-3 text-slate-600">Severe asymmetric loading shifts impact force onto one limb, exceeding unilateral tissue tolerance.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Comparative Plotly Charts Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+          <h4 class="text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <i class="fas fa-chart-line text-blue-600"></i>
+            <span>Kinematic Angle Overlay</span>
+          </h4>
+          <div id="plotly-compare-kinematics" class="w-full h-80"></div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+          <h4 class="text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <i class="fas fa-chart-bar text-rose-600"></i>
+            <span>19 Criteria Error Profile Breakdown</span>
+          </h4>
+          <div id="plotly-compare-bars" class="w-full h-80"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- EDUCATIONAL LAB MODULE FOR STUDENTS -->
+    <section class="mt-8 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div class="border-b border-slate-200 pb-4 mb-4">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
+            <i class="fas fa-graduation-cap mr-1"></i> STUDENT LAB MODULE
+          </span>
+          <span class="text-xs text-slate-500 font-semibold">Biomechanical Analysis & ACL Prevention</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mt-1">Jump-Landing Biomechanics & Injury Risk Lab Questions</h3>
+        <p class="text-xs text-slate-600 mt-0.5">
+          Review the questions below based on the OpenLESS data, Padua et al. (2009), and Turner et al. (2024). Click each question to reveal detailed biomechanical explanations.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Question 1 -->
+        <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50 hover:bg-slate-50 transition">
+          <div class="flex items-start justify-between cursor-pointer" onclick="toggleStudentAnswer(1)">
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900">Why does a knee flexion angle &lt; 30° at initial ground contact significantly increase ACL injury risk?</h4>
+                <p class="text-xs text-slate-500 mt-0.5">Focus on quadriceps tendon angle of insertion and anterior tibial shear force.</p>
+              </div>
+            </div>
+            <button class="text-blue-600 hover:text-blue-800 text-xs font-semibold flex items-center gap-1">
+              <span id="q-label-1">Show Explanation</span>
+              <i id="q-icon-1" class="fas fa-chevron-down"></i>
+            </button>
+          </div>
+          <div id="q-ans-1" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs text-slate-700 leading-relaxed bg-white p-3 rounded">
+            <strong class="text-blue-900 font-semibold">Biomechanical Mechanism:</strong> When the knee lands in extended or near-extended alignment (&lt; 30° flexion), the patellar tendon attaches to the tibial tuberosity at an acute angle that pulls the proximal tibia primarily <em>anteriorly</em> rather than compressing the joint. When the quadriceps vigorously contract to decelerate the body, this anterior pull creates massive <strong>anterior tibial shear force</strong>. Because the Anterior Cruciate Ligament (ACL) is the primary anatomical restraint against anterior tibial translation, this shear force directly loads the ligament. In contrast, at flexion angles &gt; 30° (as observed in Trial 1: ~36°), the patellar tendon vector is oriented more along the longitudinal axis of the tibia, producing protective joint compression while simultaneously recruiting hamstring co-activation to pull the tibia posteriorly.
+          </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50 hover:bg-slate-50 transition">
+          <div class="flex items-start justify-between cursor-pointer" onclick="toggleStudentAnswer(2)">
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900">How does proactive forward trunk lean alter external joint moment arms and reduce knee loading?</h4>
+                <p class="text-xs text-slate-500 mt-0.5">Compare the center of mass (COM) position in Stepoff-Leaning vs. Stepoff-Upright.</p>
+              </div>
+            </div>
+            <button class="text-blue-600 hover:text-blue-800 text-xs font-semibold flex items-center gap-1">
+              <span id="q-label-2">Show Explanation</span>
+              <i id="q-icon-2" class="fas fa-chevron-down"></i>
+            </button>
+          </div>
+          <div id="q-ans-2" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs text-slate-700 leading-relaxed bg-white p-3 rounded">
+            <strong class="text-blue-900 font-semibold">Biomechanical Mechanism:</strong> Forward trunk flexion (45.2° in Trial 1) shifts the body's center of mass (COM) anteriorly, positioning the Ground Reaction Force (GRF) vector closer to the knee joint center and further from the hip joint center. This reduces the external knee flexion moment arm and increases the external hip flexion moment arm. Consequently, the work of decelerating downward momentum is transferred away from the anterior quadriceps/knee complex and into the larger, more powerful <strong>posterior chain musculature</strong> (gluteus maximus, hamstrings, and spinal extensors). In contrast, in Trial 2 (upright spine, -6.3°), the GRF vector passes far posterior to the knee, creating an enormous external knee flexion moment that requires maximum quadriceps tension, exacerbating anterior tibial shear.
+          </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50 hover:bg-slate-50 transition">
+          <div class="flex items-start justify-between cursor-pointer" onclick="toggleStudentAnswer(3)">
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900">What constitutes "dynamic knee valgus" in 3D biomechanics, and how does OpenLESS identify it?</h4>
+                <p class="text-xs text-slate-500 mt-0.5">Examine Criteria 8, 9, 10, 16, and 17 (hip adduction, hip internal rotation, tibial abduction).</p>
+              </div>
+            </div>
+            <button class="text-blue-600 hover:text-blue-800 text-xs font-semibold flex items-center gap-1">
+              <span id="q-label-3">Show Explanation</span>
+              <i id="q-icon-3" class="fas fa-chevron-down"></i>
+            </button>
+          </div>
+          <div id="q-ans-3" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs text-slate-700 leading-relaxed bg-white p-3 rounded">
+            <strong class="text-blue-900 font-semibold">Biomechanical Mechanism:</strong> True dynamic valgus is a <em>tri-planar collapse</em> consisting of femoral adduction, femoral internal rotation, tibial external rotation/abduction, and foot pronation (eversion). In OpenCap's inverse kinematics model, OpenLESS captures this primarily through hip adduction and hip internal rotation during stance. In Trial 2 (Upright), the subject demonstrated abnormal hip adduction (&gt; 1°) and internal rotation (&gt; 8°) along with a massive 10.8° lateral hip shift at peak depth (Item 16 &amp; 17 error). This inward collapse creates a valgus moment arm at the knee that subjects the ACL to combined tension and impingement against the intercondylar notch.
+          </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50 hover:bg-slate-50 transition">
+          <div class="flex items-start justify-between cursor-pointer" onclick="toggleStudentAnswer(4)">
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900">How does the impulse-momentum theorem explain the difference between a "soft" and "stiff" landing?</h4>
+                <p class="text-xs text-slate-500 mt-0.5">Examine the time duration of stance and joint angular displacements.</p>
+              </div>
+            </div>
+            <button class="text-blue-600 hover:text-blue-800 text-xs font-semibold flex items-center gap-1">
+              <span id="q-label-4">Show Explanation</span>
+              <i id="q-icon-4" class="fas fa-chevron-down"></i>
+            </button>
+          </div>
+          <div id="q-ans-4" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs text-slate-700 leading-relaxed bg-white p-3 rounded">
+            <strong class="text-blue-900 font-semibold">Biomechanical Mechanism:</strong> The impulse-momentum relationship dictates that the change in momentum ($\Delta p = m \cdot \Delta v$) is equal to the integral of net force over time ($\int F \, dt$). In both trials, the subject falls from the same height and must arrest the same vertical momentum to come to a stop ($\Delta p$ is constant). In Trial 1 (Soft Landing), the deep multi-joint flexion (45° knee displacement, 39° hip displacement) lengthens the deceleration time ($\Delta t$). Because $\Delta t$ is large, the peak ground reaction force ($F_{peak}$) is low. In Trial 2 (Stiff Landing), the joints undergo minimal displacement (only 19-23° knee flexion), halting downward velocity in a fraction of the time. Consequently, the ground reaction force spike is extraordinarily high, delivering jarring impact shocks to cartilage, subchondral bone, and passive ligaments.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CUSTOM UPLOAD MODAL (Hidden by default) -->
+  <div id="upload-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden">
+      <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-cloud-upload-alt text-blue-600 text-lg"></i>
+          <h3 class="text-base font-bold text-slate-900">Upload OpenCap Trial Data</h3>
+        </div>
+        <button onclick="closeUploadModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <p class="text-xs text-slate-600">
+          Upload the <strong>.trc</strong> marker coordinate file and the <strong>.mot</strong> OpenSim inverse kinematics file from your OpenCap session. The browser will run zero-phase Butterworth filtering and compute all 19 OpenLESS criteria directly on client side.
+        </p>
+
+        <!-- Drop Zone -->
+        <div id="drop-zone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-xl p-8 text-center cursor-pointer transition bg-slate-50 hover:bg-blue-50/50">
+          <i class="fas fa-file-alt text-3xl text-slate-400 mb-2"></i>
+          <p class="text-sm font-semibold text-slate-800">Drag & drop .trc and .mot files here</p>
+          <p class="text-xs text-slate-500 mt-1">or click to browse from your computer</p>
+          <input type="file" id="file-upload-input" multiple accept=".trc,.mot" class="hidden">
+        </div>
+
+        <!-- Selected Files List -->
+        <div class="space-y-1.5 text-xs">
+          <div class="flex items-center justify-between p-2 rounded bg-slate-100">
+            <span class="font-medium text-slate-600">Marker Coordinates (.trc):</span>
+            <span id="trc-filename" class="font-bold text-slate-800">No file selected</span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-slate-100">
+            <span class="font-medium text-slate-600">Kinematics (.mot):</span>
+            <span id="mot-filename" class="font-bold text-slate-800">No file selected</span>
+          </div>
+        </div>
+
+        <div id="upload-status" class="text-xs font-semibold text-blue-600 text-center"></div>
+
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button onclick="closeUploadModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg transition">Cancel</button>
+          <button id="btn-process-custom" disabled class="opacity-50 cursor-not-allowed px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition shadow-sm">
+            Evaluate OpenLESS Score
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-2">
+      <p class="font-semibold text-slate-700">
+        Lawrence Technological University · Experimental Biomechanics Laboratory (EBL) · Department of Biomedical Engineering
+      </p>
+      <p>
+        Automated Jump-Landing Error Scoring System (OpenLESS) based on Turner et al. (2024), <em>medRxiv</em> 
+        <a href="https://doi.org/10.1101/2024.11.28.24318160" target="_blank" class="text-blue-600 underline">DOI: 10.1101/2024.11.28.24318160</a>.
+      </p>
+      <p class="text-[11px] text-slate-400">
+        OpenCap markless motion capture pipeline · Powered by OpenSim & TensorFlow · Designed for biomechanics research and student education.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Student Q&A Accordion Script -->
+  <script>
+    function toggleStudentAnswer(num) {
+      const ans = document.getElementById(`q-ans-${num}`);
+      const icon = document.getElementById(`q-icon-${num}`);
+      const label = document.getElementById(`q-label-${num}`);
+      if (!ans) return;
+      ans.classList.toggle('hidden');
+      if (ans.classList.contains('hidden')) {
+        icon.className = 'fas fa-chevron-down';
+        label.innerText = 'Show Explanation';
+      } else {
+        icon.className = 'fas fa-chevron-up text-blue-700';
+        label.innerText = 'Hide Explanation';
+      }
+    }
+  </script>
+
+  <!-- Main Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>

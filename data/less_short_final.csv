@@ -1,0 +1,3 @@
+Trial_ID,Total_Score,1_Knee_Flexion_IC_T,2_Hip_Flexion_IC_T,3_Trunk_Flexion_IC_T,4_Ankle_Plantar_Flexion_IC_T,5_Asymmetrical_Timing,6_Asymmetrical_HeelToe_ToeHeel,7_Lateral_Trunk_Flexion_IC_T,8_Medial_Knee_IC_T,9_Stance_Wide_IC_T,10_Stance_Narrow_IC_T,11_IR_Foot_IC_T,12_ER_Foot_IC_T,13_Knee_Flexion_Displacement_T,14_Hip_Flexion_Displacement_T,15_Trunk_Flexion_Max_T,16_Medial_Knee_Max_T,17_Asymmetrical_Load_T,18_Joint_Displacement_T,19_Overall_Impression_T
+Stepoff-Leaning,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Stepoff-Upright,14,1,1,1,1,0,1,0,0,0,0,0,0,1,1,1,1,1,2,2
